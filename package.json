@@ -8,7 +8,9 @@
     "build-ts": "tsc",
     "build": "npm run build-ts && npm run lint",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
-    "watch-ts": "tsc -w"
+    "watch-ts": "tsc -w",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down"
   },
   "author": "Vasyl Boyko",
   "license": "ISC",
