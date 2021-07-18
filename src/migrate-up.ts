@@ -1,8 +1,6 @@
 import sql from "sql-template-tag";
 import DB from "./connection";
 
-const db = DB.getInstance().connection;
-
 const q = sql`
     CREATE TABLE pos (
         id int unsigned NOT NULL AUTO_INCREMENT,
@@ -19,9 +17,12 @@ const q = sql`
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 `;
 
-db.connect();
-db.query(q, (error, results, fields) => {
-  if (error) throw error;
-  console.log("table 'pos' created");
-});
-db.end();
+const migrateUp = async () => {
+  const db = await DB.getConnection();
+
+  await db.connect();
+  await db.query(q).catch((err) => console.warn(err));
+  await db.end();
+};
+
+migrateUp();
