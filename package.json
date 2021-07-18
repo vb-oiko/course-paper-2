@@ -13,7 +13,9 @@
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
     "watch-node": "nodemon dist/index.js",
     "db:up": "docker compose up -d",
-    "db:down": "docker compose down"
+    "db:down": "docker compose down",
+    "migrate:up": "tsc && node ./dist/migrate-up.js",
+    "migrate:down": "tsc && node ./dist/migrate-down.js"
   },
   "author": "Vasyl Boyko",
   "license": "ISC",
@@ -29,6 +31,8 @@
   },
   "dependencies": {
     "dotenv": "^10.0.0",
-    "mysql2": "^2.2.5"
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "sql-template-tag": "^4.0.0"
   }
 }
