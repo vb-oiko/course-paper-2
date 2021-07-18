@@ -4,6 +4,7 @@ import DB from "./connection";
 const q = sql`
     CREATE TABLE pos (
         id int unsigned NOT NULL AUTO_INCREMENT,
+        name varchar(100) NOT NULL,
         type enum("shopping mall", "store", "shop", "kiosk") DEFAULT NULL,
         area decimal(10,2) NOT NULL,
         utilities decimal(10,2) DEFAULT NULL,
