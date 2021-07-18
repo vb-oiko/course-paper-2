@@ -1,4 +1,4 @@
-import DB from "./connection";
+import DB from "./db/connection";
 
 const main = async () => {
   const db = await DB.getConnection();

@@ -14,8 +14,8 @@
     "watch-node": "nodemon dist/index.js",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
-    "migrate:up": "tsc && node ./dist/migrate-up.js",
-    "migrate:down": "tsc && node ./dist/migrate-down.js"
+    "migrate:up": "tsc && node ./dist/db/migrate-up.js",
+    "migrate:down": "tsc && node ./dist/db/migrate-down.js"
   },
   "author": "Vasyl Boyko",
   "license": "ISC",
