@@ -8,7 +8,10 @@
     "build-ts": "tsc",
     "build": "npm run build-ts && npm run lint",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
+    "serve-debug": "nodemon --inspect dist/index.js",
     "watch-ts": "tsc -w",
+    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
+    "watch-node": "nodemon dist/index.js",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down"
   },
