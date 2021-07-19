@@ -2,20 +2,21 @@ export interface Repo<T> {
   // exists(t: T): Promise<boolean>;
   // delete(t: T): Promise<any>;
   save(t: T): Promise<any>;
-  fake(): T;
 }
 
-export enum PosTypes {
+export enum PosType {
   SHOPPING_MALL = "shopping mall",
   STORE = "store",
   SHOP = "shop",
   KIOSK = "kiosk",
 }
 
-export interface Pos {
+export interface Entity {
   id: number;
+}
+export interface Pos extends Entity {
   name: string;
-  type: PosTypes;
+  type: PosType;
   area: number;
   utilities: number;
   rent: number;
@@ -23,6 +24,11 @@ export interface Pos {
   departments?: number;
   halls?: number;
   workplaces?: number;
+}
+
+export interface Sku {
+  id: number;
+  name: string;
 }
 
 export type PosCollection = Pos[];
