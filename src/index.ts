@@ -6,8 +6,6 @@ const main = async () => {
 
   const posRepo = new PosRepo(db);
 
-  posRepo.save(posRepo.fake());
-  posRepo.save(posRepo.fake());
   const allPos = await posRepo.findAllPos();
 
   console.warn({allPos});
