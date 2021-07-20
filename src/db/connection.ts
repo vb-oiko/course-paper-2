@@ -16,7 +16,7 @@ export default class DB {
         return Promise.reject();
     });
 
-    console.warn("DB connection created succesfully");
+    console.warn("DB connected");
     return this.connection;
   }
 
