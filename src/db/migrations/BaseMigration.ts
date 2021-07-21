@@ -9,8 +9,8 @@ export interface Migration {
 }
 
 export default class BaseMigration implements Migration {
-  table: string;
-  columns: Sql;
+  table = "";
+  columns= sql``;
   db: Connection;
 
   constructor(db: Connection) {
