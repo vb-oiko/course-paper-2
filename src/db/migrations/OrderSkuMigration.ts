@@ -6,9 +6,12 @@ export default class OrderSkuMigration extends BaseMigration {
 
   columns = sql`
     id int unsigned NOT NULL AUTO_INCREMENT,
+
     order_id int unsigned,
     sku_id int unsigned,
+
     qty decimal(10,2),
+    
     PRIMARY KEY (id),
     UNIQUE KEY id_UNIQUE (id),
     FOREIGN KEY (order_id) REFERENCES order(id),

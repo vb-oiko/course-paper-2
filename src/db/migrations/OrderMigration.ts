@@ -6,11 +6,14 @@ export default class OrderMigration extends BaseMigration {
 
   columns = sql`
     id int unsigned NOT NULL AUTO_INCREMENT,
+
     pos_id int unsigned,
+
     date datetime(0),
     fulfilled boolean,
+
     PRIMARY KEY (id),
     UNIQUE KEY id_UNIQUE (id),
-    FOREIGN KEY (pos_id) REFERENCES pos(id),
+    FOREIGN KEY (pos_id) REFERENCES pos(id)
   `;
 }
