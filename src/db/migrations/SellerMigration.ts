@@ -2,7 +2,7 @@ import sql from "sql-template-tag";
 import BaseMigration from "./BaseMigration";
 
 export default class SellerMigration extends BaseMigration {
-  table = "seler";
+  table = "seller";
 
   columns = sql`
     id int unsigned NOT NULL AUTO_INCREMENT,
