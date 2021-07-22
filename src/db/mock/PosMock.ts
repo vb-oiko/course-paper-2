@@ -1,4 +1,4 @@
-import { Pos, PosType } from "../types";
+import { Pos, PosType } from "../../types";
 import faker from "faker";
 
 export default class PosMock {
