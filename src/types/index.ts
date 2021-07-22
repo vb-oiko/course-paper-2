@@ -36,3 +36,5 @@ export type PosCollection = Pos[];
 export interface IPosRepo extends Repo<Pos> {
   // getPosById(posId: string): Promise<Pos>;
 }
+
+export type InsertRow<T> = Omit<T, "id">;

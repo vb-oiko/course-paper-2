@@ -1,4 +1,4 @@
-import { Pos, PosType } from "../../types";
+import { InsertRow, Pos, PosType } from "../../types";
 import faker from "faker";
 
 export default class PosMock {
@@ -28,12 +28,11 @@ export default class PosMock {
     return faker.datatype.number(b - a) + a;
   }
 
-  static build(): Pos {
+  static build(): InsertRow<Pos> {
     const type = this.mockType();
     const area = this.mockArea(type);
 
     return {
-      id: 0,
       name: `${faker.address.county()} ${type}`,
       type,
       area,
