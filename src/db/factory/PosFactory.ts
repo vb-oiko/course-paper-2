@@ -35,7 +35,7 @@ class PosFactory extends BaseFactory<Pos> {
     const area = PosFactory.mockArea(type);
 
     return {
-      name: `${faker.address.county()} ${type}`,
+      name: `${faker.address.streetName()} ${BaseFactory.capitalize(type)}`,
       type,
       area,
       utilities: area * PosFactory.mockNumberInRange(10, 20),
