@@ -2,6 +2,7 @@ import DB from "./connection";
 
 import SeedCollection from "./seed/SeedCollection";
 import PosSeed from "./seed/PosSeed";
+import SkuSeed from "./seed/SkuSeed";
 
 const command = process.argv[2];
 if (command !== "up" && command !== "down") {
@@ -16,6 +17,7 @@ const seed = async () => {
   const seeds = new SeedCollection(db);
 
   seeds.add(new PosSeed(db));
+  seeds.add(new SkuSeed(db));
 
   if (command === "up" ) {
     seeds.up();
