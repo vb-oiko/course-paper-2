@@ -25,9 +25,13 @@ export default class BaseRepo implements Repo<Entity> {
     `;
 
     console.warn(q);
-    
+
     const res = (await this.db.query(q)) as ResultSetHeader[];
     const id = res[0].insertId;
     return { ...entity, id };
+  }
+
+  async saveAll(entities: InsertRow<Entity>[]): Promise<Entity[]> {
+    return Promise.all(entities.map((entity) => this.save(entity)));
   }
 }

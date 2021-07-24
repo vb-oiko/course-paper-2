@@ -1,7 +1,7 @@
 export interface Repo<T> {
   // exists(t: T): Promise<boolean>;
   // delete(t: T): Promise<any>;
-  save(t: T): Promise<any>;
+  save(t: InsertRow<T>): Promise<T>;
 }
 
 export enum PosType {
@@ -31,6 +31,13 @@ export interface Sku {
   name: string;
 }
 
+export interface PosSku {
+  id: number;
+  sku_id: number;
+  pos_id: number;
+  price: number;
+}
+
 export type PosCollection = Pos[];
 
 export interface IPosRepo extends Repo<Pos> {
@@ -38,3 +45,5 @@ export interface IPosRepo extends Repo<Pos> {
 }
 
 export type InsertRow<T> = Omit<T, "id">;
+
+export type EntityMap = Record<string, Entity>;
