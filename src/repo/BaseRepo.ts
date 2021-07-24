@@ -24,8 +24,6 @@ export default class BaseRepo implements Repo<Entity> {
             VALUES (${join(values, ",")})
     `;
 
-    console.warn(q);
-
     const res = (await this.db.query(q)) as ResultSetHeader[];
     const id = res[0].insertId;
     return { ...entity, id };
@@ -33,5 +31,14 @@ export default class BaseRepo implements Repo<Entity> {
 
   async saveAll(entities: InsertRow<Entity>[]): Promise<Entity[]> {
     return Promise.all(entities.map((entity) => this.save(entity)));
+  }
+
+  async deleteAll(): Promise<number> {
+    const q = sql`DELETE FROM ${raw("db." + this.table)}`;
+
+    const res = (await this.db.query(q)) as ResultSetHeader[];
+    const { affectedRows } = res[0];
+    
+    return affectedRows;
   }
 }
