@@ -25,7 +25,7 @@ if (command !== "up" && command !== "down") {
   process.exit(1);
 }
 
-const migrateUp = async () => {
+const migrate = async () => {
   const db = await DB.getConnection();
 
   await db.connect();
@@ -60,4 +60,4 @@ const migrateUp = async () => {
   await db.end();
 };
 
-migrateUp();
+migrate();
