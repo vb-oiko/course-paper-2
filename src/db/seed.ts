@@ -1,32 +1,31 @@
-import PosRepo from "../repo/PosRepo";
-import SkuRepo from "../repo/SkuRepo";
-import { InsertRow } from "../types";
 import DB from "./connection";
-import PosFactory from "./factory/PosFactory";
-import SkuFactory from "./factory/SkuFactory";
 
-class Seeder {
-  static newCollection<T>(n: number, factory: () => InsertRow<T>) {
-    return Array(5).fill(null).map(factory);
-  }
+import SeedCollection from "./seed/SeedCollection";
+import PosSeed from "./seed/PosSeed";
 
-  static async main() {
-    const db = await DB.getConnection();
-
-    const posRepo = new PosRepo(db);
-    const skuRepo = new SkuRepo(db);
-
-    const stores = await posRepo.saveAll(
-      Seeder.newCollection(5, PosFactory.build)
-    );
-    const skus = await skuRepo.saveAll(
-      Seeder.newCollection(5, SkuFactory.build)
-    );
-
-    console.warn({ stores, skus });
-
-    await db.end();
-  }
+const command = process.argv[2];
+if (command !== "up" && command !== "down") {
+  console.error("unknown comand. please specify 'up' or 'down");
+  process.exit(1);
 }
 
-Seeder.main();
+const seed = async () => {
+  const db = await DB.getConnection();
+
+  await db.connect();
+  const seeds = new SeedCollection(db);
+
+  seeds.add(new PosSeed(db));
+
+  if (command === "up" ) {
+    seeds.up();
+  }
+
+  if (command === "down" ) {
+    seeds.down();
+  }
+
+  await db.end();
+};
+
+seed();
