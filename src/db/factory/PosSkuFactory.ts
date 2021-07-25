@@ -7,7 +7,7 @@ class PosSkuFactory extends BaseFactory<PosSku> {
     return {
       pos_id: pos.id,
       sku_id: sku.id,
-      price: Number(faker.commerce.price()),
+      price: Number(faker.commerce.price(10, 100, 2)),
     };
   }
 }
