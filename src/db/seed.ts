@@ -9,6 +9,7 @@ import RequestSkuSeed from "./seed/RequestSkuSeed";
 import CustomerSeed from "./seed/CustomerSeed";
 import SupplierSeed from "./seed/SupplierSeed";
 import SellerSeed from "./seed/SellerSeed";
+import SaleSeed from "./seed/SaleSeed";
 
 const command = process.argv[2];
 if (command !== "up" && command !== "down") {
@@ -29,6 +30,7 @@ const seed = async () => {
   seeds.add(new CustomerSeed(db));
   seeds.add(new SupplierSeed(db));
   seeds.add(new SellerSeed(db));
+  seeds.add(new SaleSeed(db));
 
   if (command === "up") {
     await seeds.up();

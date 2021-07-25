@@ -71,3 +71,9 @@ export interface Seller extends Entity {
   pos_id: number;
   salary: number;
 }
+
+export interface Sale extends Entity {
+  date: Date;
+  seller_id: number;
+  customer_id: number;
+}
