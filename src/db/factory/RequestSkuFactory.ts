@@ -7,7 +7,7 @@ class RequestSkuFactory extends BaseFactory<RequestSku> {
     return {
       request_id: request.id,
       sku_id: sku.id,
-      qty: Number(faker.commerce.price(50, 200)),
+      qty: Number(faker.commerce.price(1, 10)),
     };
   }
 }

@@ -20,8 +20,8 @@ export default class RequestSkuSeed extends BaseSeed<RequestSku> {
     const requests = await requestRepo.findAll();
     const skus = await skuRepo.findAll();
 
-    return this.multiplyCollections(requests, skus).map(([request, sku]) =>
-      RequestSkuFactory.build({ request, sku })
+    return this.multiplyCollections(requests, skus, 0, 5).map(
+      ([request, sku]) => RequestSkuFactory.build({ request, sku })
     );
   }
 }

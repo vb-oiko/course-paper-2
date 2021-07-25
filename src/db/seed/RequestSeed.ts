@@ -1,3 +1,4 @@
+import faker from "faker";
 import { Connection } from "mysql2/promise";
 import PosRepo from "../../repo/PosRepo";
 import RequestRepo from "../../repo/RequestRepo";
@@ -17,7 +18,9 @@ export default class RequestSeed extends BaseSeed<Request> {
     const stores = await posRepo.findAll();
 
     return stores.flatMap((pos) =>
-      this.newCollection(5, () => RequestFactory.build({ pos }))
+      this.newCollection(faker.datatype.number(5) + 1, () =>
+        RequestFactory.build({ pos })
+      )
     );
   }
 }

@@ -1,6 +1,7 @@
 import { Connection } from "mysql2/promise";
 import BaseRepo from "../../repo/BaseRepo";
 import { Entity, InsertRow } from "../../types";
+import faker from "faker";
 
 export interface Seed {
   up(): Promise<void>;
@@ -48,10 +49,20 @@ export default abstract class BaseSeed<T> implements Seed {
     return Array(n).fill(null).map(factory);
   }
 
+  selectRandomItems<T>(collection: T[], n = 0): T[] {
+    return !n || n >= collection.length
+      ? collection
+      : faker.helpers.shuffle(collection).slice(0, n);
+  }
+
   multiplyCollections(
     collectionA: Entity[],
-    collectionB: Entity[]
+    collectionB: Entity[],
+    countA = 0,
+    countB = 0
   ): Entity[][] {
-    return collectionA.flatMap((a) => collectionB.map((b) => [a, b]));
+    return this.selectRandomItems(collectionA, countA).flatMap((a) =>
+      this.selectRandomItems(collectionB, countB).map((b) => [a, b])
+    );
   }
 }
