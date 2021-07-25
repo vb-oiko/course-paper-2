@@ -26,13 +26,11 @@ export interface Pos extends Entity {
   workplaces?: number;
 }
 
-export interface Sku {
-  id: number;
+export interface Sku extends Entity {
   name: string;
 }
 
-export interface PosSku {
-  id: number;
+export interface PosSku extends Entity {
   sku_id: number;
   pos_id: number;
   price: number;
@@ -48,16 +46,24 @@ export type InsertRow<T> = Omit<T, "id">;
 
 export type EntityMap = Record<string, Entity>;
 
-export interface Request {
-  id: number;
+export interface Request extends Entity {
   pos_id: number;
   date: Date;
   fulfilled: boolean;
 }
 
-export interface RequestSku {
-  id: number;
+export interface RequestSku extends Entity {
   request_id: number;
   sku_id: number;
   qty: number;
+}
+
+
+export interface Customer extends Entity {
+  name: string;
+}
+
+
+export interface Supplier extends Entity {
+  name: string;
 }
