@@ -68,10 +68,10 @@ export default class BaseRepo<T> implements Repo<T> {
   }
 
   dateToDateTime(date: Date = new Date()): string {
-    return format(date, "YYYY-MM-DD HH-mm-ss");
+    return format(date, "yyyy-MM-DD HH-mm-ss");
   }
 
   dateTimeToDate(datetime: string): Date {
-    return parse(datetime, "YYYY-MM-DD HH-mm-ss", new Date());
+    return parse(datetime, "yyyy-MM-DD HH-mm-ss", new Date());
   }
 }

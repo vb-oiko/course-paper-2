@@ -54,3 +54,10 @@ export interface Request {
   date: Date;
   fulfilled: boolean;
 }
+
+export interface RequestSku {
+  id: number;
+  request_id: number;
+  sku_id: number;
+  qty: number;
+}
