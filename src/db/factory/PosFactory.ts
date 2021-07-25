@@ -43,7 +43,7 @@ class PosFactory extends BaseFactory<Pos> {
       floors: PosFactory.mockFloors(type),
       halls: Math.floor(area / PosFactory.mockNumberInRange(1000, 2000)) || 1,
       departments: Math.floor(area / PosFactory.mockNumberInRange(100, 500)) || 1,
-      workplaces: Math.floor(area / PosFactory.mockNumberInRange(50, 100)) || 1,
+      workplaces: Math.floor(area / PosFactory.mockNumberInRange(400, 700)) || 1,
     };
   }
 }

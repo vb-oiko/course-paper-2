@@ -58,12 +58,16 @@ export interface RequestSku extends Entity {
   qty: number;
 }
 
-
 export interface Customer extends Entity {
   name: string;
 }
 
-
 export interface Supplier extends Entity {
   name: string;
+}
+
+export interface Seller extends Entity {
+  name: string;
+  pos_id: number;
+  salary: number;
 }

@@ -8,6 +8,7 @@ import RequestSeed from "./seed/RequestSeed";
 import RequestSkuSeed from "./seed/RequestSkuSeed";
 import CustomerSeed from "./seed/CustomerSeed";
 import SupplierSeed from "./seed/SupplierSeed";
+import SellerSeed from "./seed/SellerSeed";
 
 const command = process.argv[2];
 if (command !== "up" && command !== "down") {
@@ -20,13 +21,14 @@ const seed = async () => {
 
   const seeds = new SeedCollection(db);
 
-  // seeds.add(new PosSeed(db));
-  // seeds.add(new SkuSeed(db));
-  // seeds.add(new PosSkuSeed(db));
-  // seeds.add(new RequestSeed(db));
-  // seeds.add(new RequestSkuSeed(db));
-  // seeds.add(new CustomerSeed(db));
+  seeds.add(new PosSeed(db));
+  seeds.add(new SkuSeed(db));
+  seeds.add(new PosSkuSeed(db));
+  seeds.add(new RequestSeed(db));
+  seeds.add(new RequestSkuSeed(db));
+  seeds.add(new CustomerSeed(db));
   seeds.add(new SupplierSeed(db));
+  seeds.add(new SellerSeed(db));
 
   if (command === "up") {
     await seeds.up();
