@@ -11,7 +11,7 @@ export default class PosSeed extends BaseSeed<Pos> {
     this.table = "pos";
   }
 
-  build(): InsertRow<Pos>[] {
+  async build(): Promise<InsertRow<Pos>[]> {
     return this.newCollection(10, PosFactory.build);
   }
 }

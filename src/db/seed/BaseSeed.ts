@@ -1,6 +1,6 @@
 import { Connection } from "mysql2/promise";
 import BaseRepo from "../../repo/BaseRepo";
-import { InsertRow } from "../../types";
+import { Entity, InsertRow } from "../../types";
 
 export interface Seed {
   up(): Promise<void>;
@@ -16,13 +16,13 @@ export default abstract class BaseSeed<T> implements Seed {
     this.table = "";
   }
 
-  build(): InsertRow<T>[] {
+  async build(): Promise<InsertRow<T>[]> {
     return [];
   }
 
   async up(): Promise<void> {
     await this.repo
-      .saveAll(this.build())
+      .saveAll(await this.build())
       .then((entities) =>
         console.log(`added ${entities.length} rows to table ${this.table}`)
       )
@@ -44,5 +44,12 @@ export default abstract class BaseSeed<T> implements Seed {
 
   newCollection<T>(n: number, factory: () => InsertRow<T>): InsertRow<T>[] {
     return Array(n).fill(null).map(factory);
+  }
+
+  multiplyCollections(
+    collectionA: Entity[],
+    collectionB: Entity[]
+  ): Entity[][] {
+    return collectionA.flatMap((a) => collectionB.map((b) => [a, b]));
   }
 }

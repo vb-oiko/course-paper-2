@@ -41,4 +41,12 @@ export default class BaseRepo implements Repo<Entity> {
     
     return affectedRows;
   }
+
+  async findAll(): Promise<Entity[]> {
+    const q = sql`SELECT * FROM ${raw("db." + this.table)}`;
+
+    const [rows] = await this.db.query(q);
+
+    return rows as Entity[];
+  }
 }

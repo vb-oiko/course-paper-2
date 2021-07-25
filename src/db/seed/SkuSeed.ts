@@ -11,7 +11,7 @@ export default class SkuSeed extends BaseSeed<Sku> {
     this.table = "sku";
   }
 
-  build(): InsertRow<Sku>[] {
+  async build(): Promise<InsertRow<Sku>[]> {
     return this.newCollection(20, SkuFactory.build);
   }
 }
