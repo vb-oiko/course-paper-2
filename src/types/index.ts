@@ -47,3 +47,10 @@ export interface IPosRepo extends Repo<Pos> {
 export type InsertRow<T> = Omit<T, "id">;
 
 export type EntityMap = Record<string, Entity>;
+
+export interface Request {
+  id: number;
+  pos_id: number;
+  date: Date;
+  fulfilled: boolean;
+}

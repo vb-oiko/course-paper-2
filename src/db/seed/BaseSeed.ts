@@ -10,8 +10,10 @@ export interface Seed {
 export default abstract class BaseSeed<T> implements Seed {
   repo: BaseRepo<T>;
   table: string;
+  db: Connection;
 
   constructor(db: Connection) {
+    this.db = db;
     this.repo = new BaseRepo(db);
     this.table = "";
   }
@@ -35,10 +37,10 @@ export default abstract class BaseSeed<T> implements Seed {
     return this.repo
       .deleteAll()
       .then((rows) =>
-        console.log(`deleted ${rows} rows in table ${this.table}`)
+        console.log(`deleted ${rows} rows from table ${this.table}`)
       )
       .catch((err) =>
-        console.warn(`error deleting rows in table ${this.table}: `, err)
+        console.warn(`error deleting rows from table ${this.table}: `, err)
       );
   }
 

@@ -7,11 +7,8 @@ import BaseSeed from "./BaseSeed";
 import PosSkuFactory from "../factory/PosSkuFactory";
 
 export default class PosSkuSeed extends BaseSeed<PosSku> {
-  db: Connection;
-
   constructor(db: Connection) {
     super(db);
-    this.db = db;
     this.repo = new PosSkuRepo(db);
     this.table = "pos_sku";
   }
