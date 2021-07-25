@@ -5,7 +5,7 @@ import { format, parse } from "date-fns";
 
 export default class BaseRepo<T> implements Repo<T> {
   db: Connection;
-  private batch = 20;
+  private BATCH_SIZE = 100;
 
   table = "";
 
@@ -14,6 +14,28 @@ export default class BaseRepo<T> implements Repo<T> {
   }
 
   async save(rows: InsertRow<T>[]): Promise<T[]> {
+    if (rows.length === 0) {
+      return [];
+    }
+
+    if (rows.length <= this.BATCH_SIZE) {
+      return this.saveBatch(rows);
+    }
+
+    const batches = new Array(Math.ceil(rows.length / this.BATCH_SIZE))
+      .fill(null)
+      .map((_, ind) =>
+        rows.slice(ind * this.BATCH_SIZE, (ind + 1) * this.BATCH_SIZE)
+      );
+
+    const savedBatches = await Promise.all(
+      batches.map((batch) => this.saveBatch(batch))
+    );
+
+    return savedBatches.flat();
+  }
+
+  async saveBatch(rows: InsertRow<T>[]): Promise<T[]> {
     if (rows.length === 0) {
       return [];
     }
