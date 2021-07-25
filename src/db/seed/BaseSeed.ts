@@ -25,7 +25,7 @@ export default abstract class BaseSeed<T> implements Seed {
 
   async up(): Promise<void> {
     await this.repo
-      .saveAll(await this.build())
+      .save(await this.build())
       .then((entities) =>
         console.log(`added ${entities.length} rows to table ${this.table}`)
       )

@@ -1,7 +1,7 @@
 export interface Repo<T> {
   // exists(t: T): Promise<boolean>;
   // delete(t: T): Promise<any>;
-  save(t: InsertRow<T>): Promise<T>;
+  save(t: InsertRow<T>[]): Promise<T[]>;
 }
 
 export enum PosType {

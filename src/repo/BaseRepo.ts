@@ -5,6 +5,7 @@ import { format, parse } from "date-fns";
 
 export default class BaseRepo<T> implements Repo<T> {
   db: Connection;
+  private batch = 20;
 
   table = "";
 
@@ -12,26 +13,31 @@ export default class BaseRepo<T> implements Repo<T> {
     this.db = db;
   }
 
-  async save(entity: InsertRow<T>): Promise<T> {
-    const keyValuePairs = Object.entries(entity).filter(
-      ([key]) => key !== "id"
+  async save(rows: InsertRow<T>[]): Promise<T[]> {
+    if (rows.length === 0) {
+      return [];
+    }
+
+    const fields = Object.keys(rows[0]).filter(([key]) => key !== "id");
+
+    const getValuesArray = (row: InsertRow<T>): any[] =>
+      fields.map((field) => (row as Record<string, unknown>)[field]);
+
+    const values = join(
+      rows.map((row) => sql`(${join(getValuesArray(row), ",")})`)
     );
 
-    const keys = keyValuePairs.map(([key]) => key);
-    const values = keyValuePairs.map(([, value]) => value as string);
-
     const q = sql`
-        INSERT INTO ${raw("db." + this.table)} (${raw(keys.join(","))}) 
-            VALUES (${join(values, ",")})
+        INSERT INTO ${raw("db." + this.table)} (${raw(fields.join(","))}) 
+            VALUES ${values}
     `;
 
     const res = (await this.db.query(q)) as ResultSetHeader[];
-    const id = res[0].insertId;
-    return { ...entity, id } as unknown as T;
-  }
+    const { insertId } = res[0];
 
-  async saveAll(entities: InsertRow<T>[]): Promise<T[]> {
-    return Promise.all(entities.map((entity) => this.save(entity)));
+    return rows.map(
+      (row, ind) => ({ ...row, id: insertId + ind } as unknown as T)
+    );
   }
 
   async deleteAll(): Promise<number> {
