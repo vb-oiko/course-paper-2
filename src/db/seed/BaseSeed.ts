@@ -8,7 +8,7 @@ export interface Seed {
 }
 
 export default abstract class BaseSeed<T> implements Seed {
-  repo: BaseRepo;
+  repo: BaseRepo<T>;
   table: string;
 
   constructor(db: Connection) {

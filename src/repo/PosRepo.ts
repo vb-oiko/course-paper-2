@@ -1,8 +1,9 @@
-import { InsertRow, Pos, PosCollection, Repo } from "../types";
+import { InsertRow, Pos, PosCollection } from "../types";
 import sql from "sql-template-tag";
 import BaseRepo from "./BaseRepo";
+import { RowDataPacket } from "mysql2/promise";
 
-export default class PosRepo extends BaseRepo implements Repo<Pos> {
+export default class PosRepo extends BaseRepo<Pos> {
   table = "pos";
 
   async findAllPos(): Promise<PosCollection> {
@@ -14,11 +15,35 @@ export default class PosRepo extends BaseRepo implements Repo<Pos> {
     return result as Pos[];
   }
 
-  async save(pos: InsertRow<Pos>): Promise<Pos> {
-    return super.save(pos) as Promise<Pos>;
+  mapToDb(data: InsertRow<Pos>): RowDataPacket {
+    return data as RowDataPacket;
   }
 
-  async saveAll(stores: InsertRow<Pos>[]): Promise<Pos[]> {
-    return super.saveAll(stores) as Promise<Pos[]>;
+  mapFromDb(data: RowDataPacket): Pos {
+    const {
+      id,
+      name,
+      type,
+      area,
+      utilities,
+      rent,
+      floors,
+      departments,
+      halls,
+      workplaces,
+    } = data;
+
+    return {
+      id,
+      name,
+      type,
+      area: Number(area),
+      utilities: Number(utilities),
+      rent: Number(rent),
+      floors,
+      departments,
+      halls,
+      workplaces,
+    };
   }
 }

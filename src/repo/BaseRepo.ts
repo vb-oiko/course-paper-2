@@ -1,8 +1,8 @@
-import { Entity, InsertRow, Repo } from "../types";
+import { InsertRow, Repo } from "../types";
 import sql, { raw, join } from "sql-template-tag";
-import { Connection, ResultSetHeader } from "mysql2/promise";
+import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 
-export default class BaseRepo implements Repo<Entity> {
+export default class BaseRepo<T> implements Repo<T> {
   db: Connection;
 
   table = "";
@@ -11,7 +11,7 @@ export default class BaseRepo implements Repo<Entity> {
     this.db = db;
   }
 
-  async save(entity: InsertRow<Entity>): Promise<Entity> {
+  async save(entity: InsertRow<T>): Promise<T> {
     const keyValuePairs = Object.entries(entity).filter(
       ([key]) => key !== "id"
     );
@@ -26,10 +26,10 @@ export default class BaseRepo implements Repo<Entity> {
 
     const res = (await this.db.query(q)) as ResultSetHeader[];
     const id = res[0].insertId;
-    return { ...entity, id };
+    return { ...entity, id } as unknown as T;
   }
 
-  async saveAll(entities: InsertRow<Entity>[]): Promise<Entity[]> {
+  async saveAll(entities: InsertRow<T>[]): Promise<T[]> {
     return Promise.all(entities.map((entity) => this.save(entity)));
   }
 
@@ -38,15 +38,23 @@ export default class BaseRepo implements Repo<Entity> {
 
     const res = (await this.db.query(q)) as ResultSetHeader[];
     const { affectedRows } = res[0];
-    
+
     return affectedRows;
   }
 
-  async findAll(): Promise<Entity[]> {
+  async findAll(): Promise<T[]> {
     const q = sql`SELECT * FROM ${raw("db." + this.table)}`;
 
     const [rows] = await this.db.query(q);
 
-    return rows as Entity[];
+    return (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
+  }
+
+  mapToDb(data: InsertRow<T>): RowDataPacket {
+    return data as RowDataPacket;
+  }
+
+  mapFromDb(data: RowDataPacket): T {
+    return data as T;
   }
 }
