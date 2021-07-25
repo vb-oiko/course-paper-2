@@ -14,10 +14,14 @@ export default class SeedCollection {
   }
 
   async up(): Promise<void> {
-    await Promise.all(this.seeds.map((seed) => seed.up()));
+    for (let i = 0; i < this.seeds.length; i++) {
+      await this.seeds[i].up();
+    }
   }
 
   async down(): Promise<void> {
-    await Promise.all([...this.seeds].reverse().map((seed) => seed.down()));
+    for (let i = this.seeds.length - 1; i >= 0; i--) {
+      await this.seeds[i].down();
+    }
   }
 }
