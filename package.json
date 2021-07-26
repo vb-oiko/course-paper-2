@@ -14,8 +14,7 @@
     "watch-node": "nodemon dist/index.js",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
-    "migrate:up": "tsc && node ./dist/db/migrate.js up",
-    "migrate:down": "tsc && node ./dist/db/migrate.js down",
+    "migrate": "tsc && node ./dist/db/migrate.js",
     "seed": "tsc && node ./dist/db/seed.js",
     "start": "tsc && node ./dist/index.js"
   },
