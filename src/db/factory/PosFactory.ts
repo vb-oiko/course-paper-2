@@ -30,9 +30,12 @@ class PosFactory extends BaseFactory<Pos> {
   }
 
   build(): InsertRow<Pos> {
-    
     const type = PosFactory.mockType();
     const area = PosFactory.mockArea(type);
+    const workplaces = Math.min(
+      10,
+      Math.floor(area / PosFactory.mockNumberInRange(400, 700))
+    );
 
     return {
       name: `${faker.address.streetName()} ${BaseFactory.capitalize(type)}`,
@@ -42,8 +45,9 @@ class PosFactory extends BaseFactory<Pos> {
       rent: area * PosFactory.mockNumberInRange(50, 150),
       floors: PosFactory.mockFloors(type),
       halls: Math.floor(area / PosFactory.mockNumberInRange(1000, 2000)) || 1,
-      departments: Math.floor(area / PosFactory.mockNumberInRange(100, 500)) || 1,
-      workplaces: Math.floor(area / PosFactory.mockNumberInRange(400, 700)) || 1,
+      departments:
+        Math.floor(area / PosFactory.mockNumberInRange(100, 500)) || 1,
+      workplaces: workplaces || 1,
     };
   }
 }
