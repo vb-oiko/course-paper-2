@@ -17,6 +17,7 @@ export default class PosSkuRepo extends BaseRepo<PosSku> {
       sku_id,
       pos_id,
       price: Number(price),
+      qty: Number(price),
     };
   }
 }

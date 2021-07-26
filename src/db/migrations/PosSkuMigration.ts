@@ -11,6 +11,7 @@ export default class PosSkuMigration extends BaseMigration {
     sku_id int unsigned,
 
     price decimal(10,2),
+    qty decimal(10,2),
     
     PRIMARY KEY (id),
     UNIQUE KEY id_UNIQUE (id),

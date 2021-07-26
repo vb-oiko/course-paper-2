@@ -34,6 +34,7 @@ export interface PosSku extends Entity {
   sku_id: number;
   pos_id: number;
   price: number;
+  qty: number;
 }
 
 export type PosCollection = Pos[];
