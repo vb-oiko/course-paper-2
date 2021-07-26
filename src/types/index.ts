@@ -66,7 +66,7 @@ export interface RequestSku extends Entity {
 }
 
 export interface TransferSku extends Entity {
-  request_id: number;
+  transfer_id: number;
   sku_id: number;
   qty: number;
 }
