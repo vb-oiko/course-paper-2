@@ -53,7 +53,19 @@ export interface Request extends Entity {
   fulfilled: boolean;
 }
 
+export interface Transfer extends Entity {
+  date: Date;
+  from_pos_id: number;
+  to_pos_id: number;
+}
+
 export interface RequestSku extends Entity {
+  request_id: number;
+  sku_id: number;
+  qty: number;
+}
+
+export interface TransferSku extends Entity {
   request_id: number;
   sku_id: number;
   qty: number;

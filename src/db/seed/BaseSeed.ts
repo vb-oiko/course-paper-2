@@ -55,6 +55,13 @@ export default abstract class BaseSeed<T> implements Seed {
       : faker.helpers.shuffle(collection).slice(0, n);
   }
 
+  generateRandomSequence<T>(collection: T[], n = 0): T[] {
+    return new Array(Math.ceil(n / collection.length))
+      .fill(null)
+      .flatMap(() => faker.helpers.shuffle(collection))
+      .slice(0, n);
+  }
+
   multiplyCollections(
     collectionA: Entity[],
     collectionB: Entity[],
