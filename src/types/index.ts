@@ -77,3 +77,10 @@ export interface Sale extends Entity {
   seller_id: number;
   customer_id: number;
 }
+
+export interface SaleSku extends Entity {
+  sale_id: number;
+  sku_id: number;
+  price: number;
+  qty: number;
+}
