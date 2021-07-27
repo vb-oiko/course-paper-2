@@ -16,7 +16,7 @@ import TransferSkuMigration from "./migrations/TransferSkuMigration";
 import RequestSkuMigration from "./migrations/RequestSkuMigration";
 import PurchaseSkuMigration from "./migrations/PurchaseSkuMigration";
 import SaleSkuMigration from "./migrations/SaleSkuMigration";
-import DistributionSkuMigration from "./migrations/DistributionSkuMigration";
+import PurchaseSkuPosMigration from "./migrations/PurchaseSkuPosMigration";
 import PurchaseRequestMigration from "./migrations/PurchaseRequestMigration";
 
 const command = process.argv[2];
@@ -46,7 +46,7 @@ const migrate = async () => {
   migrations.add(new RequestSkuMigration(db));
   migrations.add(new PurchaseSkuMigration(db));
   migrations.add(new SaleSkuMigration(db));
-  migrations.add(new DistributionSkuMigration(db));
+  migrations.add(new PurchaseSkuPosMigration(db));
   migrations.add(new PurchaseRequestMigration(db));
 
   if (command === "up" ) {

@@ -10,7 +10,6 @@ export default class PurchaseSkuMigration extends BaseMigration {
     purchase_id int unsigned,
     sku_id int unsigned,
 
-    qty decimal(10,2),
     price decimal(10,2),
 
     PRIMARY KEY (id),
