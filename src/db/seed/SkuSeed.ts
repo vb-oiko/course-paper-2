@@ -1,5 +1,5 @@
 import { Connection } from "mysql2/promise";
-import SkuRepo from "../repo/SkuRepo";
+import SkuRepo from "../table/SkuRepo";
 import { InsertRow, Sku } from "../../types";
 import SkuFactory from "../factory/SkuFactory";
 import BaseSeed from "./BaseSeed";

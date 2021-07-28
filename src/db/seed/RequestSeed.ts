@@ -1,7 +1,7 @@
 import faker from "faker";
 import { Connection } from "mysql2/promise";
-import PosRepo from "../repo/PosRepo";
-import RequestRepo from "../repo/RequestRepo";
+import PosRepo from "../table/PosRepo";
+import RequestRepo from "../table/RequestRepo";
 import { InsertRow, Request } from "../../types";
 import RequestFactory from "../factory/RequestFactory";
 import BaseSeed from "./BaseSeed";

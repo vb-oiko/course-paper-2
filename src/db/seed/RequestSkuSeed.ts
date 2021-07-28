@@ -1,7 +1,7 @@
 import { Connection } from "mysql2/promise";
-import RequestSkuRepo from "../repo/RequestSkuRepo";
-import RequestRepo from "../repo/RequestRepo";
-import SkuRepo from "../repo/SkuRepo";
+import RequestSkuRepo from "../table/RequestSkuRepo";
+import RequestRepo from "../table/RequestRepo";
+import SkuRepo from "../table/SkuRepo";
 import { InsertRow, RequestSku } from "../../types";
 import BaseSeed from "./BaseSeed";
 import RequestSkuFactory from "../factory/RequestSkuFactory";

@@ -1,5 +1,5 @@
 import { Connection } from "mysql2/promise";
-import PosRepo from "../repo/PosRepo";
+import PosRepo from "../table/PosRepo";
 import { InsertRow, Pos } from "../../types";
 import PosFactory from "../factory/PosFactory";
 import BaseSeed from "./BaseSeed";

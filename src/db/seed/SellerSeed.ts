@@ -1,6 +1,6 @@
 import { Connection } from "mysql2/promise";
-import SellerRepo from "../repo/SellerRepo";
-import PosRepo from "../repo/PosRepo";
+import SellerRepo from "../table/SellerRepo";
+import PosRepo from "../table/PosRepo";
 import { InsertRow, Seller } from "../../types";
 import BaseSeed from "./BaseSeed";
 import SellerFactory from "../factory/SellerFactory";

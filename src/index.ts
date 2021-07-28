@@ -1,5 +1,5 @@
 import DB from "./db/connection";
-import PosRepo from "./db/repo/PosRepo";
+import PosRepo from "./db/table/PosRepo";
 
 const main = async () => {
   const db = await DB.getConnection();

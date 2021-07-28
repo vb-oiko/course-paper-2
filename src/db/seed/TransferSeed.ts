@@ -1,6 +1,6 @@
 import { Connection } from "mysql2/promise";
-import PosRepo from "../repo/PosRepo";
-import TransferRepo from "../repo/TransferRepo";
+import PosRepo from "../table/PosRepo";
+import TransferRepo from "../table/TransferRepo";
 import { InsertRow, Transfer } from "../../types";
 import TransferFactory from "../factory/TransferFactory";
 import BaseSeed from "./BaseSeed";

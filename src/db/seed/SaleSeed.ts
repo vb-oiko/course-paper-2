@@ -1,7 +1,7 @@
 import { Connection } from "mysql2/promise";
-import SaleRepo from "../repo/SaleRepo";
-import SellerRepo from "../repo/SellerRepo";
-import CustomerRepo from "../repo/CustomerRepo";
+import SaleRepo from "../table/SaleRepo";
+import SellerRepo from "../table/SellerRepo";
+import CustomerRepo from "../table/CustomerRepo";
 import { InsertRow, Sale } from "../../types";
 import BaseSeed from "./BaseSeed";
 import SaleFactory from "../factory/SaleFactory";
