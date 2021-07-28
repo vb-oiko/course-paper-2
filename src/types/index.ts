@@ -113,3 +113,7 @@ export interface PurchaseSkuPos extends Entity {
   pos_id: number;
   qty: number;
 }
+export interface PurchaseRequest extends Entity {
+  purchase_id: number;
+  request_id: number;
+}

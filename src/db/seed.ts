@@ -16,6 +16,7 @@ import TransferSkuSeed from "./seed/TransferSkuSeed";
 import PurchaseSeed from "./seed/PurchaseSeed";
 import PurchaseSkuSeed from "./seed/PurchaseSkuSeed";
 import PurchaseSkuPosSeed from "./seed/PurchaseSkuPosSeed";
+import PurchaseRequestSeed from "./seed/PurchaseRequestSeed";
 
 const command = process.argv[2];
 if (command !== "up" && command !== "down") {
@@ -43,6 +44,8 @@ const seed = async () => {
   seeds.add(new PurchaseSeed(db));
   seeds.add(new PurchaseSkuSeed(db));
   seeds.add(new PurchaseSkuPosSeed(db));
+  seeds.add(new PurchaseSkuPosSeed(db));
+  seeds.add(new PurchaseRequestSeed(db));
 
   if (command === "up") {
     await seeds.up();
