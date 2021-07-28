@@ -18,9 +18,7 @@ export default class RequestSeed extends BaseSeed<Request> {
     const stores = await posTable.findAll();
 
     return stores.flatMap((pos) =>
-      this.newCollection(faker.datatype.number(5) + 1, () =>
-        RequestFactory.build({ pos })
-      )
+      this.newCollection(12, () => RequestFactory.build({ pos }))
     );
   }
 }
