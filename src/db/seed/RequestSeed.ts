@@ -1,9 +1,8 @@
-import faker from "faker";
 import { Connection } from "mysql2/promise";
-import PosTable from "../table/PosTable";
-import RequestTable from "../table/RequestTable";
 import { InsertRow, Request } from "../../types";
 import RequestFactory from "../factory/RequestFactory";
+import PosTable from "../table/PosTable";
+import RequestTable from "../table/RequestTable";
 import BaseSeed from "./BaseSeed";
 
 export default class RequestSeed extends BaseSeed<Request> {
