@@ -1,5 +1,5 @@
 import { RowDataPacket } from "mysql2/promise";
-import { InsertRow, Customer } from "../types";
+import { InsertRow, Customer } from "../../types";
 import BaseRepo from "./BaseRepo";
 
 export default class CustomerRepo extends BaseRepo<Customer> {

@@ -1,4 +1,4 @@
-import { InsertRow, Pos, PosCollection } from "../types";
+import { InsertRow, Pos, PosCollection } from "../../types";
 import sql from "sql-template-tag";
 import BaseRepo from "./BaseRepo";
 import { RowDataPacket } from "mysql2/promise";

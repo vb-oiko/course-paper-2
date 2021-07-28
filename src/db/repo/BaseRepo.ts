@@ -1,4 +1,4 @@
-import { InsertRow, Repo } from "../types";
+import { InsertRow, Repo } from "../../types";
 import sql, { raw, join } from "sql-template-tag";
 import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { format, parse } from "date-fns";

@@ -1,5 +1,5 @@
 import { Connection } from "mysql2/promise";
-import BaseRepo from "../../repo/BaseRepo";
+import BaseRepo from "../repo/BaseRepo";
 import { Entity, InsertRow } from "../../types";
 import faker from "faker";
 

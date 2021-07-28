@@ -1,5 +1,5 @@
 import { RowDataPacket } from "mysql2/promise";
-import { InsertRow, RequestSku } from "../types";
+import { InsertRow, RequestSku } from "../../types";
 import BaseRepo from "./BaseRepo";
 
 export default class RequestSkuRepo extends BaseRepo<RequestSku> {
