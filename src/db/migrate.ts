@@ -1,23 +1,23 @@
 import DB from "./connection";
 
-import MigrationCollection from "./migrations/MigrationCollection";
-import PosMigration from "./migrations/PosMigration";
-import SkuMigration from "./migrations/SkuMigration";
-import RequestMigration from "./migrations/RequestMigration";
-import SellerMigration from "./migrations/SellerMigration";
-import SupplierMigration from "./migrations/SupplierMigration";
-import TransferMigration from "./migrations/TransferMigration";
-import PurchaseMigration from "./migrations/PurchaseMigration";
-import CustomerMigration from "./migrations/CustomerMigration";
-import SaleMigration from "./migrations/SaleMigration";
+import MigrationCollection from "./migration/MigrationCollection";
+import PosMigration from "./migration/PosMigration";
+import SkuMigration from "./migration/SkuMigration";
+import RequestMigration from "./migration/RequestMigration";
+import SellerMigration from "./migration/SellerMigration";
+import SupplierMigration from "./migration/SupplierMigration";
+import TransferMigration from "./migration/TransferMigration";
+import PurchaseMigration from "./migration/PurchaseMigration";
+import CustomerMigration from "./migration/CustomerMigration";
+import SaleMigration from "./migration/SaleMigration";
 
-import PosSkuMigration from "./migrations/PosSkuMigration";
-import TransferSkuMigration from "./migrations/TransferSkuMigration";
-import RequestSkuMigration from "./migrations/RequestSkuMigration";
-import PurchaseSkuMigration from "./migrations/PurchaseSkuMigration";
-import SaleSkuMigration from "./migrations/SaleSkuMigration";
-import PurchaseSkuPosMigration from "./migrations/PurchaseSkuPosMigration";
-import PurchaseRequestMigration from "./migrations/PurchaseRequestMigration";
+import PosSkuMigration from "./migration/PosSkuMigration";
+import TransferSkuMigration from "./migration/TransferSkuMigration";
+import RequestSkuMigration from "./migration/RequestSkuMigration";
+import PurchaseSkuMigration from "./migration/PurchaseSkuMigration";
+import SaleSkuMigration from "./migration/SaleSkuMigration";
+import PurchaseSkuPosMigration from "./migration/PurchaseSkuPosMigration";
+import PurchaseRequestMigration from "./migration/PurchaseRequestMigration";
 
 const command = process.argv[2];
 if (command !== "up" && command !== "down") {
