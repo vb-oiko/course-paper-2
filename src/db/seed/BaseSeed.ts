@@ -65,11 +65,11 @@ export default abstract class BaseSeed<T> implements Seed {
   multiplyCollections(
     collectionA: Entity[],
     collectionB: Entity[],
-    countA = 0,
-    countB = 0
+    limitA = 0,
+    limitB = 0
   ): Entity[][] {
-    return this.selectRandomItems(collectionA, countA).flatMap((a) =>
-      this.selectRandomItems(collectionB, countB).map((b) => [a, b])
+    return this.selectRandomItems(collectionA, limitA).flatMap((a) =>
+      this.selectRandomItems(collectionB, limitB).map((b) => [a, b])
     );
   }
 }

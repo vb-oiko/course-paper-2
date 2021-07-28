@@ -14,7 +14,7 @@ export default class PurchaseSkuPosMigration extends BaseMigration {
 
     PRIMARY KEY (id),
     UNIQUE KEY id_UNIQUE (id),
-    FOREIGN KEY (purchase_sku_id) REFERENCES purchase(id),
+    FOREIGN KEY (purchase_sku_id) REFERENCES purchase_sku(id),
     FOREIGN KEY (pos_id) REFERENCES pos(id)
   `;
 }
