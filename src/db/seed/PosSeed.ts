@@ -1,5 +1,5 @@
 import { Connection } from "mysql2/promise";
-import PosRepo from "../table/PosRepo";
+import PosTable from "../table/PosTable";
 import { InsertRow, Pos } from "../../types";
 import PosFactory from "../factory/PosFactory";
 import BaseSeed from "./BaseSeed";
@@ -7,8 +7,8 @@ import BaseSeed from "./BaseSeed";
 export default class PosSeed extends BaseSeed<Pos> {
   constructor(db: Connection) {
     super(db);
-    this.repo = new PosRepo(db);
-    this.table = "pos";
+    this.table = new PosTable(db);
+    this.tableName = "pos";
   }
 
   async build(): Promise<InsertRow<Pos>[]> {

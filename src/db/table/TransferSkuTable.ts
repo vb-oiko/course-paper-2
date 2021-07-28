@@ -1,9 +1,9 @@
 import { RowDataPacket } from "mysql2/promise";
 import { InsertRow, TransferSku } from "../../types";
-import BaseRepo from "./BaseRepo";
+import BaseTable from "./BaseTable";
 
-export default class TransferSkuRepo extends BaseRepo<TransferSku> {
-  table = "transfer_sku";
+export default class TransferSkuTable extends BaseTable<TransferSku> {
+  tableName = "transfer_sku";
 
   mapToDb(data: InsertRow<TransferSku>): RowDataPacket {
     return data as RowDataPacket;

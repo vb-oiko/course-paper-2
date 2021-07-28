@@ -1,6 +1,6 @@
 import { Connection } from "mysql2/promise";
-import PosRepo from "../table/PosRepo";
-import TransferRepo from "../table/TransferRepo";
+import PosTable from "../table/PosTable";
+import TransferTable from "../table/TransferTable";
 import { InsertRow, Transfer } from "../../types";
 import TransferFactory from "../factory/TransferFactory";
 import BaseSeed from "./BaseSeed";
@@ -8,13 +8,13 @@ import BaseSeed from "./BaseSeed";
 export default class TransferSeed extends BaseSeed<Transfer> {
   constructor(db: Connection) {
     super(db);
-    this.repo = new TransferRepo(db);
-    this.table = "transfer";
+    this.table = new TransferTable(db);
+    this.tableName = "transfer";
   }
 
   async build(): Promise<InsertRow<Transfer>[]> {
-    const posRepo = new PosRepo(this.db);
-    const stores = await posRepo.findAll();
+    const posTable = new PosTable(this.db);
+    const stores = await posTable.findAll();
 
     const fromStores = this.generateRandomSequence(stores, 100);
     const toStores = this.generateRandomSequence(stores, fromStores.length);

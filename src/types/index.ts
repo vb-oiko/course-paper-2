@@ -1,4 +1,4 @@
-export interface Repo<T> {
+export interface Table<T> {
   // exists(t: T): Promise<boolean>;
   // delete(t: T): Promise<any>;
   save(t: InsertRow<T>[]): Promise<T[]>;
@@ -39,7 +39,7 @@ export interface PosSku extends Entity {
 
 export type PosCollection = Pos[];
 
-export interface IPosRepo extends Repo<Pos> {
+export interface IPosTable extends Table<Pos> {
   // getPosById(posId: string): Promise<Pos>;
 }
 

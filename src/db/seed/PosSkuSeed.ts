@@ -1,7 +1,7 @@
 import { Connection } from "mysql2/promise";
-import PosSkuRepo from "../table/PosSkuRepo";
-import PosRepo from "../table/PosRepo";
-import SkuRepo from "../table/SkuRepo";
+import PosSkuTable from "../table/PosSkuTable";
+import PosTable from "../table/PosTable";
+import SkuTable from "../table/SkuTable";
 import { InsertRow, PosSku } from "../../types";
 import BaseSeed from "./BaseSeed";
 import PosSkuFactory from "../factory/PosSkuFactory";
@@ -9,16 +9,16 @@ import PosSkuFactory from "../factory/PosSkuFactory";
 export default class PosSkuSeed extends BaseSeed<PosSku> {
   constructor(db: Connection) {
     super(db);
-    this.repo = new PosSkuRepo(db);
-    this.table = "pos_sku";
+    this.table = new PosSkuTable(db);
+    this.tableName = "pos_sku";
   }
 
   async build(): Promise<InsertRow<PosSku>[]> {
-    const posRepo = new PosRepo(this.db);
-    const skuRepo = new SkuRepo(this.db);
+    const posTable = new PosTable(this.db);
+    const skuTable = new SkuTable(this.db);
 
-    const stores = await posRepo.findAll();
-    const skus = await skuRepo.findAll();
+    const stores = await posTable.findAll();
+    const skus = await skuTable.findAll();
 
     return this.multiplyCollections(stores, skus).map(([pos, sku]) =>
       PosSkuFactory.build({ pos, sku })

@@ -1,5 +1,5 @@
 import { Connection } from "mysql2/promise";
-import SkuRepo from "../table/SkuRepo";
+import SkuTable from "../table/SkuTable";
 import { InsertRow, Sku } from "../../types";
 import SkuFactory from "../factory/SkuFactory";
 import BaseSeed from "./BaseSeed";
@@ -7,8 +7,8 @@ import BaseSeed from "./BaseSeed";
 export default class SkuSeed extends BaseSeed<Sku> {
   constructor(db: Connection) {
     super(db);
-    this.repo = new SkuRepo(db);
-    this.table = "sku";
+    this.table = new SkuTable(db);
+    this.tableName = "sku";
   }
 
   async build(): Promise<InsertRow<Sku>[]> {

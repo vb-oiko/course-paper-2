@@ -1,10 +1,10 @@
 import { InsertRow, Pos, PosCollection } from "../../types";
 import sql from "sql-template-tag";
-import BaseRepo from "./BaseRepo";
+import BaseTable from "./BaseTable";
 import { RowDataPacket } from "mysql2/promise";
 
-export default class PosRepo extends BaseRepo<Pos> {
-  table = "pos";
+export default class PosTable extends BaseTable<Pos> {
+  tableName = "pos";
 
   async findAllPos(): Promise<PosCollection> {
     const q = sql`

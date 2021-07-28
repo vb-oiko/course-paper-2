@@ -1,13 +1,13 @@
-import { InsertRow, Repo } from "../../types";
+import { InsertRow, Table } from "../../types";
 import sql, { raw, join } from "sql-template-tag";
 import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { format, parse } from "date-fns";
 
-export default class BaseRepo<T> implements Repo<T> {
+export default class BaseTable<T> implements Table<T> {
   db: Connection;
   private BATCH_SIZE = 100;
 
-  table = "";
+  tableName = "";
 
   constructor(db: Connection) {
     this.db = db;
@@ -50,7 +50,7 @@ export default class BaseRepo<T> implements Repo<T> {
     );
 
     const q = sql`
-        INSERT INTO ${raw("db." + this.table)} (${raw(fields.join(","))}) 
+        INSERT INTO ${raw("db." + this.tableName)} (${raw(fields.join(","))}) 
             VALUES ${values}
     `;
 
@@ -63,7 +63,7 @@ export default class BaseRepo<T> implements Repo<T> {
   }
 
   async deleteAll(): Promise<number> {
-    const q = sql`DELETE FROM ${raw("db." + this.table)}`;
+    const q = sql`DELETE FROM ${raw("db." + this.tableName)}`;
 
     const res = (await this.db.query(q)) as ResultSetHeader[];
     const { affectedRows } = res[0];
@@ -72,7 +72,7 @@ export default class BaseRepo<T> implements Repo<T> {
   }
 
   async findAll(): Promise<T[]> {
-    const q = sql`SELECT * FROM ${raw("db." + this.table)}`;
+    const q = sql`SELECT * FROM ${raw("db." + this.tableName)}`;
 
     const [rows] = await this.db.query(q);
 

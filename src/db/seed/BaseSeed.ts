@@ -1,5 +1,5 @@
 import { Connection } from "mysql2/promise";
-import BaseRepo from "../table/BaseRepo";
+import BaseTable from "../table/BaseTable";
 import { Entity, InsertRow } from "../../types";
 import faker from "faker";
 
@@ -9,14 +9,14 @@ export interface Seed {
 }
 
 export default abstract class BaseSeed<T> implements Seed {
-  repo: BaseRepo<T>;
-  table: string;
+  table: BaseTable<T>;
+  tableName: string;
   db: Connection;
 
   constructor(db: Connection) {
     this.db = db;
-    this.repo = new BaseRepo(db);
-    this.table = "";
+    this.table = new BaseTable(db);
+    this.tableName = "";
   }
 
   async build(): Promise<InsertRow<T>[]> {
@@ -24,7 +24,7 @@ export default abstract class BaseSeed<T> implements Seed {
   }
 
   async up(): Promise<void> {
-    await this.repo
+    await this.table
       .save(await this.build())
       .then((entities) =>
         console.log(`added ${entities.length} rows to table ${this.table}`)
@@ -35,7 +35,7 @@ export default abstract class BaseSeed<T> implements Seed {
   }
 
   async down(): Promise<void> {
-    return this.repo
+    return this.table
       .deleteAll()
       .then((rows) =>
         console.log(`deleted ${rows} rows from table ${this.table}`)

@@ -1,12 +1,12 @@
 import DB from "./db/connection";
-import PosRepo from "./db/table/PosRepo";
+import PosTable from "./db/table/PosTable";
 
 const main = async () => {
   const db = await DB.getConnection();
 
-  const posRepo = new PosRepo(db);
+  const posTable = new PosTable(db);
 
-  const allPos = await posRepo.findAllPos();
+  const allPos = await posTable.findAllPos();
 
   console.warn({allPos});
 
