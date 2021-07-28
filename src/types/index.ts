@@ -97,3 +97,19 @@ export interface SaleSku extends Entity {
   price: number;
   qty: number;
 }
+
+export interface Purchase extends Entity {
+  date: Date;
+  supplier_id: number;
+}
+
+export interface PurchaseSku extends Entity {
+  purchase_id: number;
+  sku_id: number;
+  price: number;
+}
+export interface PurchaseSkuPos extends Entity {
+  purchase_sku_id: number;
+  pos_id: number;
+  qty: number;
+}
