@@ -27,10 +27,10 @@ export default abstract class BaseSeed<T> implements Seed {
     await this.table
       .save(await this.build())
       .then((entities) =>
-        console.log(`added ${entities.length} rows to table ${this.table}`)
+        console.log(`added ${entities.length} rows to table ${this.tableName}`)
       )
       .catch((err) =>
-        console.warn(`error adding rows to table ${this.table}: `, err)
+        console.warn(`error adding rows to table ${this.tableName}: `, err)
       );
   }
 
@@ -38,10 +38,10 @@ export default abstract class BaseSeed<T> implements Seed {
     return this.table
       .deleteAll()
       .then((rows) =>
-        console.log(`deleted ${rows} rows from table ${this.table}`)
+        console.log(`deleted ${rows} rows from table ${this.tableName}`)
       )
       .catch((err) =>
-        console.warn(`error deleting rows from table ${this.table}: `, err)
+        console.warn(`error deleting rows from table ${this.tableName}: `, err)
       );
   }
 
