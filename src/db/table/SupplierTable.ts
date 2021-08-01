@@ -1,9 +1,9 @@
 import { RowDataPacket } from "mysql2/promise";
-import sql, { join } from "sql-template-tag";
+import sql, { empty, join } from "sql-template-tag";
 import { InsertRow, Supplier } from "../../types";
 import BaseTable, {
   DateRangeRequestData,
-  LimitOffsetRequestData
+  LimitOffsetRequestData,
 } from "./BaseTable";
 
 export default class SupplierTable extends BaseTable<Supplier> {
@@ -22,31 +22,33 @@ export default class SupplierTable extends BaseTable<Supplier> {
     };
   }
 
-  async getBySkuId(
-    query: SupplierByMinSkuQtyRequestData
+  async getBySkuOrCategoryId(
+    query: SupplierByMinSkuQtyRequestData |
+      SupplierByCategoryAndMinQtyRequestData
   ): Promise<SupplierResponseData> {
-    const { skuId, minQty } = query;
-
     const whereClause = this.joinWithAnd([
-      sql`ps.sku_id = ${skuId}`,
-      ...this.getDateRangeConditions(query, "p.date"),
+      "skuId" in query ? sql`purchase_sku.sku_id = ${query.skuId}` : empty,
+      "categoryId" in query? sql`sku.category_id = ${query.categoryId}` : empty,
+      ...this.getDateRangeConditions(query, "purchase.date"),
     ]);
 
     const suppliersSql = sql`
       SELECT 
-        s.id, s.name
+        supplier.id, supplier.name
       FROM
-        Supplier AS s
+        supplier
           JOIN
-        purchase AS p ON p.supplier_id = s.id
+        purchase ON purchase.supplier_id = supplier.id
           JOIN
-        purchase_sku AS ps ON ps.purchase_id = p.id
+        purchase_sku ON purchase_sku.purchase_id = purchase.id
           JOIN
-        purchase_sku_pos AS psp ON psp.purchase_sku_id = ps.id
+        purchase_sku_pos ON purchase_sku_pos.purchase_sku_id = purchase_sku.id
+          JOIN
+        sku ON purchase_sku.sku_id = sku.id
       WHERE
         ${whereClause}
-      GROUP BY s.id
-      HAVING SUM(psp.qty) > ${minQty}
+      GROUP BY supplier.id
+      HAVING SUM(purchase_sku_pos.qty) > ${query.minQty}
     `;
 
     const limitOffsetSupplierSql = join(
@@ -87,7 +89,14 @@ export interface SupplierByMinSkuQtyRequestData
   extends DateRangeRequestData,
     LimitOffsetRequestData {
   skuId: number;
-  minQty: number;
+  minQty?: number;
+}
+
+export interface SupplierByCategoryAndMinQtyRequestData
+  extends DateRangeRequestData,
+    LimitOffsetRequestData {
+  categoryId: number;
+  minQty?: number;
 }
 
 export interface SupplierResponseData {

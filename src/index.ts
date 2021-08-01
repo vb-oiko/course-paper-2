@@ -6,8 +6,8 @@ const main = async () => {
 
   const supplierTable = new SupplierTable(db, true);
 
-  await supplierTable.getBySkuId({
-    skuId: 21,
+  await supplierTable.getBySkuOrCategoryId({
+    categoryId: 5,
     minQty: 500,
     from: new Date("2020-07-01"),
     to: new Date("2021-12-01"),
