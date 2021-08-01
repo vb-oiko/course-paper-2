@@ -1,16 +1,23 @@
-import { format, parse } from "date-fns";
-import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { format as formatDate, parse as parseDate } from "date-fns";
+import {
+  Connection,
+  format as formatSql,
+  ResultSetHeader,
+  RowDataPacket,
+} from "mysql2/promise";
 import sql, { empty, join, raw, Sql, Value } from "sql-template-tag";
 import { InsertRow, Table } from "../../types";
 
 export default class BaseTable<T> implements Table<T> {
   db: Connection;
   private BATCH_SIZE = 100;
+  debug: boolean;
 
   tableName = "";
 
-  constructor(db: Connection) {
+  constructor(db: Connection, debug = false) {
     this.db = db;
+    this.debug = debug;
   }
 
   async save(rows: InsertRow<T>[]): Promise<T[]> {
@@ -96,11 +103,11 @@ export default class BaseTable<T> implements Table<T> {
   }
 
   dateToDateTime(date: Date = new Date()): string {
-    return format(date, "yyyy-MM-dd HH-mm-ss");
+    return formatDate(date, "yyyy-MM-dd HH-mm-ss");
   }
 
   dateTimeToDate(datetime: string): Date {
-    return parse(datetime, "yyyy-MM-dd HH-mm-ss", new Date());
+    return parseDate(datetime, "yyyy-MM-dd HH-mm-ss", new Date());
   }
 
   joinWithAnd(values: Sql[]): Sql {
@@ -128,6 +135,10 @@ export default class BaseTable<T> implements Table<T> {
     const offsetStatement = offset ? sql`OFFSET ${offset}` : empty;
 
     return [limitStatement, offsetStatement];
+  }
+
+  formatSql(sql: Sql): string {
+    return formatSql(sql.sql, sql.values);
   }
 }
 

@@ -67,7 +67,19 @@ export default class SupplierTable extends BaseTable<Supplier> {
       this.mapFromDb(row)
     );
     const total = (totalRows as RowDataPacket[])[0].total as unknown as number;
-    return { list, total };
+
+    if (this.debug) {
+      console.log("query parameters", query);
+      console.log("suppliers sql: ", this.formatSql(limitOffsetSupplierSql));
+      console.log("suppliers:", list);
+      console.log("total sql: ", this.formatSql(totalSql));
+      console.log("total:", total);
+    }
+
+    return {
+      list,
+      total,
+    };
   }
 }
 
