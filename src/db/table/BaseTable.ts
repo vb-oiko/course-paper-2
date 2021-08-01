@@ -1,7 +1,7 @@
-import { InsertRow, Table } from "../../types";
-import sql, { raw, join } from "sql-template-tag";
-import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { format, parse } from "date-fns";
+import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import sql, { join, raw, Value } from "sql-template-tag";
+import { InsertRow, Table } from "../../types";
 
 export default class BaseTable<T> implements Table<T> {
   db: Connection;
@@ -42,8 +42,8 @@ export default class BaseTable<T> implements Table<T> {
 
     const fields = Object.keys(rows[0]).filter(([key]) => key !== "id");
 
-    const getValuesArray = (row: InsertRow<T>): any[] =>
-      fields.map((field) => (row as Record<string, unknown>)[field]);
+    const getValuesArray = (row: InsertRow<T>): Value[] =>
+      fields.map((field) => (row as Record<string, unknown>)[field]) as Value[];
 
     const values = join(
       rows.map((row) => sql`(${join(getValuesArray(row), ",")})`)
