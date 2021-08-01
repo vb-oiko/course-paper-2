@@ -2,6 +2,7 @@ import DB from "./connection";
 
 import SeedCollection from "./seed/SeedCollection";
 import PosSeed from "./seed/PosSeed";
+import CategorySeed from "./seed/CategorySeed";
 import SkuSeed from "./seed/SkuSeed";
 import PosSkuSeed from "./seed/PosSkuSeed";
 import RequestSeed from "./seed/RequestSeed";
@@ -30,6 +31,7 @@ const seed = async () => {
   const seeds = new SeedCollection(db);
 
   seeds.add(new PosSeed(db));
+  seeds.add(new CategorySeed(db));
   seeds.add(new SkuSeed(db));
   seeds.add(new PosSkuSeed(db));
   seeds.add(new RequestSeed(db));

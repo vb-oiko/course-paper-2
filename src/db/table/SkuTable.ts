@@ -10,10 +10,11 @@ export default class SkuTable extends BaseTable<Sku> {
   }
 
   mapFromDb(data: RowDataPacket): Sku {
-    const { id, name } = data;
+    const { id, category_id, name } = data;
 
     return {
       id,
+      category_id,
       name,
     };
   }

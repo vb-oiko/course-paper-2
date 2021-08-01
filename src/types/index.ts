@@ -28,6 +28,11 @@ export interface Pos extends Entity {
 
 export interface Sku extends Entity {
   name: string;
+  category_id: number;
+}
+
+export interface Category extends Entity {
+  name: string;
 }
 
 export interface PosSku extends Entity {

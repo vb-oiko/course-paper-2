@@ -2,6 +2,7 @@ import DB from "./connection";
 
 import MigrationCollection from "./migration/MigrationCollection";
 import PosMigration from "./migration/PosMigration";
+import CategoryMigration from "./migration/CategoryMigration";
 import SkuMigration from "./migration/SkuMigration";
 import RequestMigration from "./migration/RequestMigration";
 import SellerMigration from "./migration/SellerMigration";
@@ -32,6 +33,7 @@ const migrate = async () => {
   const migrations = new MigrationCollection(db);
 
   migrations.add(new PosMigration(db));
+  migrations.add(new CategoryMigration(db));
   migrations.add(new SkuMigration(db));
   migrations.add(new RequestMigration(db));
   migrations.add(new TransferMigration(db));
