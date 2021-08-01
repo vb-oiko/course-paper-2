@@ -1,6 +1,6 @@
 import { format, parse } from "date-fns";
 import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import sql, { join, raw, Value } from "sql-template-tag";
+import sql, { empty, join, raw, Sql, Value } from "sql-template-tag";
 import { InsertRow, Table } from "../../types";
 
 export default class BaseTable<T> implements Table<T> {
@@ -96,10 +96,47 @@ export default class BaseTable<T> implements Table<T> {
   }
 
   dateToDateTime(date: Date = new Date()): string {
-    return format(date, "yyyy-MM-DD HH-mm-ss");
+    return format(date, "yyyy-MM-dd HH-mm-ss");
   }
 
   dateTimeToDate(datetime: string): Date {
-    return parse(datetime, "yyyy-MM-DD HH-mm-ss", new Date());
+    return parse(datetime, "yyyy-MM-dd HH-mm-ss", new Date());
   }
+
+  joinWithAnd(values: Sql[]): Sql {
+    return join(
+      values.filter((value) => value.text !== ""),
+      " AND "
+    );
+  }
+
+  getDateRangeConditions(query: DateRangeRequestData, field: string): Sql[] {
+    const { from, to } = query;
+    const fromCondition = from
+      ? sql`${raw(field)} > ${this.dateToDateTime(from)}`
+      : empty;
+    const toCondition = to
+      ? sql`${raw(field)} < ${this.dateToDateTime(to)}`
+      : empty;
+
+    return [fromCondition, toCondition];
+  }
+
+  getLimitOffsetClause(query: LimitOffsetRequestData): Sql[] {
+    const { limit, offset } = query;
+    const limitStatement = limit ? sql`LIMIT ${limit}` : empty;
+    const offsetStatement = offset ? sql`OFFSET ${offset}` : empty;
+
+    return [limitStatement, offsetStatement];
+  }
+}
+
+export interface DateRangeRequestData {
+  from?: Date;
+  to?: Date;
+}
+
+export interface LimitOffsetRequestData {
+  limit?: number;
+  offset?: number;
 }

@@ -1,6 +1,10 @@
 import { RowDataPacket } from "mysql2/promise";
+import sql, { join } from "sql-template-tag";
 import { InsertRow, Supplier } from "../../types";
-import BaseTable from "./BaseTable";
+import BaseTable, {
+  DateRangeRequestData,
+  LimitOffsetRequestData
+} from "./BaseTable";
 
 export default class SupplierTable extends BaseTable<Supplier> {
   tableName = "supplier";
@@ -17,4 +21,64 @@ export default class SupplierTable extends BaseTable<Supplier> {
       name,
     };
   }
+
+  async getBySkuId(
+    query: SupplierByMinSkuQtyRequestData
+  ): Promise<SupplierResponseData> {
+    const { skuId, minQty } = query;
+
+    const whereClause = this.joinWithAnd([
+      sql`ps.sku_id = ${skuId}`,
+      ...this.getDateRangeConditions(query, "p.date"),
+    ]);
+
+    const suppliersSql = sql`
+      SELECT 
+        s.id, s.name
+      FROM
+        Supplier AS s
+          JOIN
+        purchase AS p ON p.supplier_id = s.id
+          JOIN
+        purchase_sku AS ps ON ps.purchase_id = p.id
+          JOIN
+        purchase_sku_pos AS psp ON psp.purchase_sku_id = ps.id
+      WHERE
+        ${whereClause}
+      GROUP BY s.id
+      HAVING SUM(psp.qty) > ${minQty}
+    `;
+
+    const limitOffsetSupplierSql = join(
+      [suppliersSql, ...this.getLimitOffsetClause(query)],
+      " "
+    );
+
+    const totalSql = sql`
+    SELECT 
+      COUNT(*) as total
+    FROM (${suppliersSql}) as result
+    `;
+
+    const [supplierRows] = await this.db.query(limitOffsetSupplierSql);
+    const [totalRows] = await this.db.query(totalSql);
+
+    const list = (supplierRows as RowDataPacket[]).map((row) =>
+      this.mapFromDb(row)
+    );
+    const total = (totalRows as RowDataPacket[])[0].total as unknown as number;
+    return { list, total };
+  }
+}
+
+export interface SupplierByMinSkuQtyRequestData
+  extends DateRangeRequestData,
+    LimitOffsetRequestData {
+  skuId: number;
+  minQty: number;
+}
+
+export interface SupplierResponseData {
+  list: Supplier[];
+  total: number;
 }
