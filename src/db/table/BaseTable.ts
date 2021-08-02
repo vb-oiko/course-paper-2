@@ -140,6 +140,46 @@ export default class BaseTable<T> implements Table<T> {
   formatSql(sql: Sql): string {
     return formatSql(sql.sql, sql.values);
   }
+
+  addLimitOffsetClause(
+    sqlQuery: Sql,
+    limitOffsetQuery: LimitOffsetRequestData
+  ): Sql {
+    return join(
+      [sqlQuery, ...this.getLimitOffsetClause(limitOffsetQuery)],
+      " "
+    );
+  }
+
+  async getList(listSqlQuery: Sql): Promise<T[]> {
+    const [rows] = await this.db.query(listSqlQuery);
+    const list = (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
+
+    if (this.debug) {
+      console.log("list sql: ", this.formatSql(listSqlQuery));
+      console.log("list:", list);
+    }
+
+    return list;
+  }
+
+  async getTotal(listSqlQuery: Sql): Promise<number> {
+    const totalSqlQuery = sql`
+    SELECT 
+      COUNT(*) as total
+    FROM (${listSqlQuery}) as list
+    `;
+
+    const [totalRows] = await this.db.query(totalSqlQuery);
+    const total = (totalRows as RowDataPacket[])[0].total as unknown as number;
+
+    if (this.debug) {
+      console.log("total sql: ", this.formatSql(totalSqlQuery));
+      console.log("total:", total);
+    }
+
+    return total;
+  }
 }
 
 export interface DateRangeRequestData {
