@@ -45,9 +45,39 @@ export default class CustomerTable extends BaseTable<Customer> {
       GROUP BY customer.id
     `;
 
-    if (this.debug) {
-      console.log("query parameters", query);
-    }
+    this.debugLogQuery(query);
+
+    const list = await this.getList(this.addLimitOffsetClause(listSql, query));
+    const total = await this.getTotal(listSql);
+
+    return { list, total };
+  }
+
+  async getBySkuIdAndMinQty(
+    query: CustomerBySkuIdAndMinQtyRequestData
+  ): Promise<CustomerResponseData> {
+    const whereClause = this.joinWithAnd([
+      sql`sku.id = ${query.skuId}`,
+      ...this.getDateRangeConditions(query, "sale.date"),
+    ]);
+
+    const listSql = sql`
+      SELECT 
+        customer.id, customer.name, SUM(sale_sku.qty)
+      FROM
+        customer
+          JOIN
+        sale ON sale.customer_id = customer.id
+          JOIN
+        sale_sku ON sale_sku.sale_id = sale.id
+          JOIN
+        sku ON sale_sku.sku_id = sku.id
+      WHERE ${whereClause}
+      GROUP BY customer.id
+      HAVING SUM(sale_sku.qty) > ${query.minQty ?? 0}
+    `;
+
+    this.debugLogQuery(query);
 
     const list = await this.getList(this.addLimitOffsetClause(listSql, query));
     const total = await this.getTotal(listSql);
@@ -56,12 +86,12 @@ export default class CustomerTable extends BaseTable<Customer> {
   }
 }
 
-// export interface CustomerByMinSkuQtyRequestData
-//   extends DateRangeRequestData,
-//     LimitOffsetRequestData {
-//   skuId: number;
-//   minQty?: number;
-// }
+export interface CustomerBySkuIdAndMinQtyRequestData
+  extends DateRangeRequestData,
+    LimitOffsetRequestData {
+  skuId: number;
+  minQty?: number;
+}
 
 export interface CustomerByCategoryIdRequestData
   extends DateRangeRequestData,

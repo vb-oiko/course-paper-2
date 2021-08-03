@@ -157,7 +157,7 @@ export default class BaseTable<T> implements Table<T> {
 
     if (this.debug) {
       console.log("list sql: ", this.formatSql(listSqlQuery));
-      console.log("list:", list);
+      console.log("list:", rows);
     }
 
     return list;
@@ -175,10 +175,16 @@ export default class BaseTable<T> implements Table<T> {
 
     if (this.debug) {
       console.log("total sql: ", this.formatSql(totalSqlQuery));
-      console.log("total:", total);
+      console.log("total:", totalRows);
     }
 
     return total;
+  }
+
+  debugLogQuery(query: unknown): void {
+    if (this.debug) {
+      console.log("query parameters: ", query);
+    }
   }
 }
 

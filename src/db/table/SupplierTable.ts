@@ -23,12 +23,15 @@ export default class SupplierTable extends BaseTable<Supplier> {
   }
 
   async getBySkuOrCategoryId(
-    query: SupplierByMinSkuQtyRequestData |
-      SupplierByCategoryAndMinQtyRequestData
+    query:
+      | SupplierByMinSkuQtyRequestData
+      | SupplierByCategoryAndMinQtyRequestData
   ): Promise<SupplierResponseData> {
     const whereClause = this.joinWithAnd([
       "skuId" in query ? sql`purchase_sku.sku_id = ${query.skuId}` : empty,
-      "categoryId" in query? sql`sku.category_id = ${query.categoryId}` : empty,
+      "categoryId" in query
+        ? sql`sku.category_id = ${query.categoryId}`
+        : empty,
       ...this.getDateRangeConditions(query, "purchase.date"),
     ]);
 
@@ -48,7 +51,7 @@ export default class SupplierTable extends BaseTable<Supplier> {
       WHERE
         ${whereClause}
       GROUP BY supplier.id
-      HAVING SUM(purchase_sku_pos.qty) > ${query.minQty}
+      HAVING SUM(purchase_sku_pos.qty) > ${query.minQty ?? 0}
     `;
 
     const limitOffsetSupplierSql = join(
