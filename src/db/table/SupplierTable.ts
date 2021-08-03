@@ -35,7 +35,7 @@ export default class SupplierTable extends BaseTable<Supplier> {
       ...this.getDateRangeConditions(query, "purchase.date"),
     ]);
 
-    const suppliersSql = sql`
+    const listSql = sql`
       SELECT 
         supplier.id, supplier.name
       FROM
@@ -54,32 +54,10 @@ export default class SupplierTable extends BaseTable<Supplier> {
       HAVING SUM(purchase_sku_pos.qty) > ${query.minQty ?? 0}
     `;
 
-    const limitOffsetSupplierSql = join(
-      [suppliersSql, ...this.getLimitOffsetClause(query)],
-      " "
-    );
+    this.debugLogQuery(query);
 
-    const totalSql = sql`
-    SELECT 
-      COUNT(*) as total
-    FROM (${suppliersSql}) as result
-    `;
-
-    const [supplierRows] = await this.db.query(limitOffsetSupplierSql);
-    const [totalRows] = await this.db.query(totalSql);
-
-    const list = (supplierRows as RowDataPacket[]).map((row) =>
-      this.mapFromDb(row)
-    );
-    const total = (totalRows as RowDataPacket[])[0].total as unknown as number;
-
-    if (this.debug) {
-      console.log("query parameters", query);
-      console.log("suppliers sql: ", this.formatSql(limitOffsetSupplierSql));
-      console.log("suppliers:", list);
-      console.log("total sql: ", this.formatSql(totalSql));
-      console.log("total:", total);
-    }
+    const list = await this.getList(this.addLimitOffsetClause(listSql, query));
+    const total = await this.getTotal(listSql);
 
     return {
       list,
