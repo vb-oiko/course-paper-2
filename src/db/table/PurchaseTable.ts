@@ -1,5 +1,6 @@
 import { RowDataPacket } from "mysql2/promise";
 import { InsertRow, Purchase } from "../../types";
+import SqlHelper from "../SqlHelper";
 import BaseTable from "./BaseTable";
 
 export default class PurchaseTable extends BaseTable<Purchase> {
@@ -9,8 +10,8 @@ export default class PurchaseTable extends BaseTable<Purchase> {
     const { date, supplier_id } = data;
 
     return {
-      date: this.dateToDateTime(date),
-      supplier_id
+      date: SqlHelper.dateToDateTime(date),
+      supplier_id,
     } as RowDataPacket;
   }
 
@@ -19,8 +20,8 @@ export default class PurchaseTable extends BaseTable<Purchase> {
 
     return {
       id,
-      date: this.dateTimeToDate(date),
-      supplier_id
+      date: SqlHelper.dateTimeToDate(date),
+      supplier_id,
     };
   }
 }

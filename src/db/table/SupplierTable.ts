@@ -1,6 +1,7 @@
 import { RowDataPacket } from "mysql2/promise";
-import sql, { empty, join } from "sql-template-tag";
+import sql, { empty } from "sql-template-tag";
 import { InsertRow, Supplier } from "../../types";
+import SqlHelper from "../SqlHelper";
 import BaseTable, {
   DateRangeRequestData,
   LimitOffsetRequestData,
@@ -27,12 +28,12 @@ export default class SupplierTable extends BaseTable<Supplier> {
       | SupplierByMinSkuQtyRequestData
       | SupplierByCategoryAndMinQtyRequestData
   ): Promise<SupplierResponseData> {
-    const whereClause = this.joinWithAnd([
+    const whereClause = SqlHelper.joinWithAnd([
       "skuId" in query ? sql`purchase_sku.sku_id = ${query.skuId}` : empty,
       "categoryId" in query
         ? sql`sku.category_id = ${query.categoryId}`
         : empty,
-      ...this.getDateRangeConditions(query, "purchase.date"),
+      ...SqlHelper.getDateRangeConditions(query, "purchase.date"),
     ]);
 
     const listSql = sql`
@@ -56,7 +57,9 @@ export default class SupplierTable extends BaseTable<Supplier> {
 
     this.debugLogQuery(query);
 
-    const list = await this.getList(this.addLimitOffsetClause(listSql, query));
+    const list = await this.getList(
+      SqlHelper.addLimitOffsetClause(listSql, query)
+    );
     const total = await this.getTotal(listSql);
 
     return {

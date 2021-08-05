@@ -1,12 +1,7 @@
-import { format as formatDate, parse as parseDate } from "date-fns";
-import {
-  Connection,
-  format as formatSql,
-  ResultSetHeader,
-  RowDataPacket,
-} from "mysql2/promise";
-import sql, { empty, join, raw, Sql, Value } from "sql-template-tag";
+import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import sql, { join, raw, Sql, Value } from "sql-template-tag";
 import { InsertRow, Table } from "../../types";
+import SqlHelper from "../SqlHelper";
 
 export default class BaseTable<T> implements Table<T> {
   db: Connection;
@@ -94,69 +89,12 @@ export default class BaseTable<T> implements Table<T> {
     return data as T;
   }
 
-  booleanToInt(value: boolean): number {
-    return value ? 1 : 0;
-  }
-
-  intToBoolean(value: number): boolean {
-    return value !== 0;
-  }
-
-  dateToDateTime(date: Date = new Date()): string {
-    return formatDate(date, "yyyy-MM-dd HH-mm-ss");
-  }
-
-  dateTimeToDate(datetime: string): Date {
-    return parseDate(datetime, "yyyy-MM-dd HH-mm-ss", new Date());
-  }
-
-  joinWithAnd(values: Sql[]): Sql {
-    return join(
-      values.filter((value) => value.text !== ""),
-      " AND "
-    );
-  }
-
-  getDateRangeConditions(query: DateRangeRequestData, field: string): Sql[] {
-    const { from, to } = query;
-    const fromCondition = from
-      ? sql`${raw(field)} > ${this.dateToDateTime(from)}`
-      : empty;
-    const toCondition = to
-      ? sql`${raw(field)} < ${this.dateToDateTime(to)}`
-      : empty;
-
-    return [fromCondition, toCondition];
-  }
-
-  getLimitOffsetClause(query: LimitOffsetRequestData): Sql[] {
-    const { limit, offset } = query;
-    const limitStatement = limit ? sql`LIMIT ${limit}` : empty;
-    const offsetStatement = offset ? sql`OFFSET ${offset}` : empty;
-
-    return [limitStatement, offsetStatement];
-  }
-
-  formatSql(sql: Sql): string {
-    return formatSql(sql.sql, sql.values);
-  }
-
-  addLimitOffsetClause(
-    sqlQuery: Sql,
-    limitOffsetQuery: LimitOffsetRequestData
-  ): Sql {
-    return join(
-      [sqlQuery, ...this.getLimitOffsetClause(limitOffsetQuery)],
-      " "
-    );
-  }
-
   async getList(listSqlQuery: Sql): Promise<T[]> {
     const [rows] = await this.db.query(listSqlQuery);
     const list = (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
 
     if (this.debug) {
-      console.log("list sql: ", this.formatSql(listSqlQuery));
+      console.log("list sql: ", SqlHelper.formatSql(listSqlQuery));
       console.log("list:", rows);
     }
 
@@ -174,7 +112,7 @@ export default class BaseTable<T> implements Table<T> {
     const total = (totalRows as RowDataPacket[])[0].total as unknown as number;
 
     if (this.debug) {
-      console.log("total sql: ", this.formatSql(totalSqlQuery));
+      console.log("total sql: ", SqlHelper.formatSql(totalSqlQuery));
       console.log("total:", totalRows);
     }
 

@@ -1,5 +1,6 @@
 import { RowDataPacket } from "mysql2/promise";
 import { InsertRow, Request } from "../../types";
+import SqlHelper from "../SqlHelper";
 import BaseTable from "./BaseTable";
 
 export default class RequestTable extends BaseTable<Request> {
@@ -9,7 +10,7 @@ export default class RequestTable extends BaseTable<Request> {
     const { date, pos_id, fulfilled } = data;
     
     return {
-      date: this.dateToDateTime(date),
+      date: SqlHelper.dateToDateTime(date),
       pos_id,
       fulfilled,
     } as RowDataPacket;
@@ -20,7 +21,7 @@ export default class RequestTable extends BaseTable<Request> {
 
     return {
       id,
-      date: this.dateTimeToDate(date),
+      date: SqlHelper.dateTimeToDate(date),
       pos_id,
       fulfilled: Boolean(fulfilled),
     };

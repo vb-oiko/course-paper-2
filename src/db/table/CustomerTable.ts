@@ -1,6 +1,7 @@
 import { RowDataPacket } from "mysql2/promise";
 import sql from "sql-template-tag";
 import { Customer, InsertRow } from "../../types";
+import SqlHelper from "../SqlHelper";
 import BaseTable, {
   DateRangeRequestData,
   LimitOffsetRequestData,
@@ -25,9 +26,9 @@ export default class CustomerTable extends BaseTable<Customer> {
   async getByCategoryId(
     query: CustomerByCategoryIdRequestData
   ): Promise<CustomerResponseData> {
-    const whereClause = this.joinWithAnd([
+    const whereClause = SqlHelper.joinWithAnd([
       sql`sku.category_id = ${query.categoryId}`,
-      ...this.getDateRangeConditions(query, "sale.date"),
+      ...SqlHelper.getDateRangeConditions(query, "sale.date"),
     ]);
 
     const listSql = sql`
@@ -47,7 +48,9 @@ export default class CustomerTable extends BaseTable<Customer> {
 
     this.debugLogQuery(query);
 
-    const list = await this.getList(this.addLimitOffsetClause(listSql, query));
+    const list = await this.getList(
+      SqlHelper.addLimitOffsetClause(listSql, query)
+    );
     const total = await this.getTotal(listSql);
 
     return { list, total };
@@ -56,9 +59,9 @@ export default class CustomerTable extends BaseTable<Customer> {
   async getBySkuIdAndMinQty(
     query: CustomerBySkuIdAndMinQtyRequestData
   ): Promise<CustomerResponseData> {
-    const whereClause = this.joinWithAnd([
+    const whereClause = SqlHelper.joinWithAnd([
       sql`sku.id = ${query.skuId}`,
-      ...this.getDateRangeConditions(query, "sale.date"),
+      ...SqlHelper.getDateRangeConditions(query, "sale.date"),
     ]);
 
     const listSql = sql`
@@ -79,7 +82,9 @@ export default class CustomerTable extends BaseTable<Customer> {
 
     this.debugLogQuery(query);
 
-    const list = await this.getList(this.addLimitOffsetClause(listSql, query));
+    const list = await this.getList(
+      SqlHelper.addLimitOffsetClause(listSql, query)
+    );
     const total = await this.getTotal(listSql);
 
     return { list, total };

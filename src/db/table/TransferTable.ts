@@ -1,5 +1,6 @@
 import { RowDataPacket } from "mysql2/promise";
 import { InsertRow, Transfer } from "../../types";
+import SqlHelper from "../SqlHelper";
 import BaseTable from "./BaseTable";
 
 export default class TransferTable extends BaseTable<Transfer> {
@@ -9,7 +10,7 @@ export default class TransferTable extends BaseTable<Transfer> {
     const { date, from_pos_id, to_pos_id } = data;
 
     return {
-      date: this.dateToDateTime(date),
+      date: SqlHelper.dateToDateTime(date),
       from_pos_id,
       to_pos_id,
     } as RowDataPacket;
@@ -20,7 +21,7 @@ export default class TransferTable extends BaseTable<Transfer> {
 
     return {
       id,
-      date: this.dateTimeToDate(date),
+      date: SqlHelper.dateTimeToDate(date),
       from_pos_id,
       to_pos_id,
     };
