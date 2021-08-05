@@ -1,5 +1,7 @@
 import { Connection } from "mysql2/promise";
-import sql from "sql-template-tag";
+import sql, { empty, raw, Sql } from "sql-template-tag";
+import { PosType } from "../../types";
+import SqlHelper from "../SqlHelper";
 
 export default class SkuQtyView {
   db: Connection;
@@ -10,8 +12,14 @@ export default class SkuQtyView {
     this.debug = debug;
   }
 
-  async getByPosId(query: PosIdQuery): Promise<SkuQtyRow[]> {
-    const { posId } = query;
+  async getByPosIdOrPosType(
+    query: PosIdQueryRequestData | PosTypeQueryRequestData
+  ): Promise<SkuQtyRow[]> {
+    const whereClause = SqlHelper.getCojuctedWhereClause([
+        "posId" in query ? sql`pos.id = ${query.posId}` : empty,
+        "posType" in query ? sql`pos.type = ${query.posType}` : empty,
+      ]);
+
     const transferFromSqlQuery = sql`
         SELECT
             sku.id, sku.name, -SUM(transfer_sku.qty) as qty
@@ -21,8 +29,9 @@ export default class SkuQtyView {
             transfer_sku ON transfer_sku.sku_id = sku.id
         JOIN
             transfer ON transfer_sku.transfer_id = transfer.id
-        WHERE
-            transfer.from_pos_id = ${posId}
+        JOIN 
+            pos ON transfer.from_pos_id = pos.id
+        ${whereClause}
         GROUP BY sku.id
     `;
 
@@ -35,8 +44,9 @@ export default class SkuQtyView {
             transfer_sku ON transfer_sku.sku_id = sku.id
         JOIN
             transfer ON transfer_sku.transfer_id = transfer.id
-        WHERE
-            transfer.to_pos_id = ${posId}
+        JOIN
+            pos ON transfer.to_pos_id = pos.id
+        ${whereClause}
         GROUP BY sku.id
     `;
 
@@ -49,8 +59,9 @@ export default class SkuQtyView {
             purchase_sku ON purchase_sku.sku_id = sku.id
         JOIN
             purchase_sku_pos ON purchase_sku_pos.purchase_sku_id = purchase_sku.id
-        WHERE
-            purchase_sku_pos.pos_id = ${posId}
+        JOIN 
+            pos ON purchase_sku_pos.pos_id = pos.id
+        ${whereClause}
         GROUP BY sku.id
     `;
 
@@ -65,8 +76,9 @@ export default class SkuQtyView {
             sale ON sale_sku.sale_id = sale.id
         JOIN
             seller ON sale.seller_id = seller.id
-        WHERE
-            seller.pos_id = ${posId}
+        JOIN
+            pos ON seller.pos_id = pos.id
+        ${whereClause}
         GROUP BY sku.id
     `;
 
@@ -93,8 +105,12 @@ export default class SkuQtyView {
   }
 }
 
-export interface PosIdQuery {
-  posId: number;
+export interface PosIdQueryRequestData {
+  posId?: number;
+}
+
+export interface PosTypeQueryRequestData {
+  posType?: PosType;
 }
 
 export interface SkuQtyRow {
