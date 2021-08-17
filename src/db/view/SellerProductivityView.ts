@@ -1,10 +1,6 @@
 import { Connection } from "mysql2/promise";
-import sql, { empty, raw, Sql } from "sql-template-tag";
-import {
-  DateRangeRequestData,
-  PosType,
-  PosTypeQueryRequestData,
-} from "../../types";
+import sql, { empty } from "sql-template-tag";
+import { DateRangeRequestData, PosTypeQueryRequestData } from "../../types";
 import SqlHelper from "../SqlHelper";
 
 export default class SellerProductivityView {
@@ -18,7 +14,7 @@ export default class SellerProductivityView {
 
   async getSingleSellerProductivity(
     query: SingleSellerProductivityRequestData
-  ): Promise<SkuQtyRow[]> {
+  ): Promise<SingleSellerProductivityRow[]> {
     const whereSaleClause = SqlHelper.getCojuctedWhereClause([
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
       ...SqlHelper.getDateRangeConditions(query, "sale.date"),
@@ -65,7 +61,7 @@ export default class SellerProductivityView {
     console.warn(productivitySqlQuery.text);
     console.log(rows);
 
-    return rows as SkuQtyRow[];
+    return rows as SingleSellerProductivityRow[];
   }
 }
 
@@ -73,8 +69,6 @@ export interface SingleSellerProductivityRequestData
   extends PosTypeQueryRequestData,
     DateRangeRequestData {}
 
-export interface SkuQtyRow {
-  skuId: number;
-  skuName: string;
-  qty: number;
+export interface SingleSellerProductivityRow {
+  productivity: number;
 }
