@@ -12,9 +12,9 @@ export default class SellerProductivityView {
     this.debug = debug;
   }
 
-  async getSingleSellerProductivity(
-    query: SingleSellerProductivityRequestData
-  ): Promise<SingleSellerProductivityRow[]> {
+  async getAverageSellerProductivity(
+    query: AverageSellerProductivityRequestData
+  ): Promise<AverageSellerProductivityRow[]> {
     const whereSaleClause = SqlHelper.getCojuctedWhereClause([
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
       ...SqlHelper.getDateRangeConditions(query, "sale.date"),
@@ -61,14 +61,14 @@ export default class SellerProductivityView {
     console.warn(productivitySqlQuery.text);
     console.log(rows);
 
-    return rows as SingleSellerProductivityRow[];
+    return rows as AverageSellerProductivityRow[];
   }
 }
 
-export interface SingleSellerProductivityRequestData
+export interface AverageSellerProductivityRequestData
   extends PosTypeQueryRequestData,
     DateRangeRequestData {}
 
-export interface SingleSellerProductivityRow {
+export interface AverageSellerProductivityRow {
   productivity: number;
 }
