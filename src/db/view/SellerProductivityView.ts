@@ -63,6 +63,36 @@ export default class SellerProductivityView {
 
     return rows as AverageSellerProductivityRow[];
   }
+
+  async getSellerProductivity(
+    query: SellerProductivityRequestData
+  ): Promise<SellerProductivityRow[]> {
+    const whereSaleClause = SqlHelper.getCojuctedWhereClause([
+      "sellerId" in query ? sql`seller.id = ${query.sellerId}` : empty,
+      ...SqlHelper.getDateRangeConditions(query, "sale.date"),
+    ]);
+
+    const saleTotalsSqlQuery = sql`
+          SELECT
+              SUM(sale_sku.qty * sale_sku.price) as productivity
+          FROM
+              sale_sku
+          JOIN
+              sale ON sale_sku.sale_id = sale.id
+          JOIN
+              seller ON sale.seller_id = seller.id
+          JOIN 
+              pos ON seller.pos_id = pos.id
+          ${whereSaleClause}
+      `;
+
+    const [rows] = await this.db.query(saleTotalsSqlQuery);
+
+    console.warn(saleTotalsSqlQuery.text);
+    console.log(rows);
+
+    return rows as AverageSellerProductivityRow[];
+  }
 }
 
 export interface AverageSellerProductivityRequestData
@@ -70,5 +100,13 @@ export interface AverageSellerProductivityRequestData
     DateRangeRequestData {}
 
 export interface AverageSellerProductivityRow {
+  productivity: number;
+}
+
+export interface SellerProductivityRequestData extends DateRangeRequestData {
+  sellerId: number;
+}
+
+export interface SellerProductivityRow {
   productivity: number;
 }
