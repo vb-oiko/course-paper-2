@@ -1,6 +1,7 @@
 import { format as formatDate, parse as parseDate } from "date-fns";
 import { format as formatSql } from "mysql2/promise";
 import sql, { empty, join, raw, Sql } from "sql-template-tag";
+import { DateRangeRequestData, LimitOffsetRequestData } from "../types";
 
 export default class SqlHelper {
   static booleanToInt(value: boolean): number {
@@ -74,12 +75,3 @@ export default class SqlHelper {
   }
 }
 
-export interface DateRangeRequestData {
-  from?: Date;
-  to?: Date;
-}
-
-export interface LimitOffsetRequestData {
-  limit?: number;
-  offset?: number;
-}

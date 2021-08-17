@@ -1,11 +1,13 @@
 import { RowDataPacket } from "mysql2/promise";
 import sql from "sql-template-tag";
-import { Customer, InsertRow } from "../../types";
-import SqlHelper from "../SqlHelper";
-import BaseTable, {
+import {
+  Customer,
   DateRangeRequestData,
+  InsertRow,
   LimitOffsetRequestData,
-} from "./BaseTable";
+} from "../../types";
+import SqlHelper from "../SqlHelper";
+import BaseTable from "./BaseTable";
 
 export default class CustomerTable extends BaseTable<Customer> {
   tableName = "customer";

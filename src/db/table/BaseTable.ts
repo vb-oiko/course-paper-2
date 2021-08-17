@@ -126,12 +126,4 @@ export default class BaseTable<T> implements Table<T> {
   }
 }
 
-export interface DateRangeRequestData {
-  from?: Date;
-  to?: Date;
-}
 
-export interface LimitOffsetRequestData {
-  limit?: number;
-  offset?: number;
-}

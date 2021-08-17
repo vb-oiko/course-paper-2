@@ -1,11 +1,13 @@
 import { RowDataPacket } from "mysql2/promise";
 import sql, { empty } from "sql-template-tag";
-import { InsertRow, Supplier } from "../../types";
-import SqlHelper from "../SqlHelper";
-import BaseTable, {
+import {
   DateRangeRequestData,
+  InsertRow,
   LimitOffsetRequestData,
-} from "./BaseTable";
+  Supplier,
+} from "../../types";
+import SqlHelper from "../SqlHelper";
+import BaseTable from "./BaseTable";
 
 export default class SupplierTable extends BaseTable<Supplier> {
   tableName = "supplier";

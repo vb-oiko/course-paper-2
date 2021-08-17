@@ -122,3 +122,21 @@ export interface PurchaseRequest extends Entity {
   purchase_id: number;
   request_id: number;
 }
+
+export interface PosTypeQueryRequestData {
+  posType?: PosType;
+}
+
+export interface PosIdQueryRequestData {
+  posId?: number;
+}
+
+export interface DateRangeRequestData {
+  from?: Date;
+  to?: Date;
+}
+
+export interface LimitOffsetRequestData {
+  limit?: number;
+  offset?: number;
+}
