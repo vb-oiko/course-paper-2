@@ -1,6 +1,6 @@
 import { format as formatDate, parse as parseDate } from "date-fns";
 import { format as formatSql } from "mysql2/promise";
-import sql, { empty, join, raw, Sql } from "sql-template-tag";
+import sql, { empty, join, raw, Sql, Value } from "sql-template-tag";
 import { DateRangeRequestData, LimitOffsetRequestData } from "../types";
 
 export default class SqlHelper {
@@ -73,5 +73,24 @@ export default class SqlHelper {
       " "
     );
   }
-}
 
+  static logSql(sql: Sql, debug = true): void {
+    if (debug) {
+      const getNext = (arr: Value[]) => {
+        let i = 0;
+
+        return (_: string, ..._args: any) => {
+          const res = arr[i];
+          console.warn({ res });
+
+          i += 1;
+          return typeof res === "number" ? `${res}` : `'${res}'`;
+        };
+      };
+
+      const next = getNext(sql.values);
+
+      console.log(sql.sql.replace(/\?/g, next));
+    }
+  }
+}
