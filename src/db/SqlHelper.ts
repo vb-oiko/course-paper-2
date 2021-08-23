@@ -74,15 +74,13 @@ export default class SqlHelper {
     );
   }
 
-  static logSql(sql: Sql, debug = true): void {
+  static logSql(debug = true, sql: Sql): void {
     if (debug) {
       const getNext = (arr: Value[]) => {
         let i = 0;
 
         return (_: string, ..._args: any) => {
           const res = arr[i];
-          console.warn({ res });
-
           i += 1;
           return typeof res === "number" ? `${res}` : `'${res}'`;
         };
@@ -91,6 +89,12 @@ export default class SqlHelper {
       const next = getNext(sql.values);
 
       console.log(sql.sql.replace(/\?/g, next));
+    }
+  }
+
+  static log(debug = true, ...args: unknown[]): void {
+    if (debug) {
+      console.log(...args);
     }
   }
 }
