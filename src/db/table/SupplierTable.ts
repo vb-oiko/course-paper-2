@@ -57,8 +57,6 @@ export default class SupplierTable extends BaseTable<Supplier> {
       HAVING SUM(purchase_sku_pos.qty) > ${query.minQty ?? 0}
     `;
 
-    this.debugLogQuery(query);
-
     const list = await this.getList(
       SqlHelper.addLimitOffsetClause(listSql, query)
     );

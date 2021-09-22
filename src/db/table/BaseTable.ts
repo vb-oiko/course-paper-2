@@ -94,8 +94,11 @@ export default class BaseTable<T> implements Table<T> {
     const list = (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
 
     if (this.debug) {
-      console.log("list sql: ", SqlHelper.formatSql(listSqlQuery));
-      console.log("list:", rows);
+      console.log("\nПерелік:\n");
+      console.log("\nSQL запит:\n");
+      SqlHelper.logSql(this.debug, listSqlQuery);
+      console.log("\nРезультат запиту:\n");
+      SqlHelper.log(this.debug, rows);
     }
 
     return list;
@@ -112,8 +115,11 @@ export default class BaseTable<T> implements Table<T> {
     const total = (totalRows as RowDataPacket[])[0].total as unknown as number;
 
     if (this.debug) {
-      console.log("total sql: ", SqlHelper.formatSql(totalSqlQuery));
-      console.log("total:", totalRows);
+      console.log("\nЗагальна кількість:\n");
+      console.log("\nSQL запит:\n");
+      SqlHelper.logSql(this.debug, totalSqlQuery);
+      console.log("\nРезультат запиту:\n");
+      SqlHelper.log(this.debug, totalRows);
     }
 
     return total;
@@ -125,5 +131,3 @@ export default class BaseTable<T> implements Table<T> {
     }
   }
 }
-
-
