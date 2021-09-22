@@ -27,7 +27,7 @@ export default class SqlHelper {
     );
   }
 
-  static getCojuctedWhereClause(conditions: Sql[]): Sql {
+  static getCombinedWhereClause(conditions: Sql[]): Sql {
     const notEmptyConditions = conditions.filter((value) => value.text !== "");
 
     if (notEmptyConditions.length === 0) {

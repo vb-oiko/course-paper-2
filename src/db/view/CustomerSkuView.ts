@@ -15,7 +15,7 @@ export default class CustomerSkuView {
   async getByQuery(
     query: PosIdQueryRequestData | PosTypeQueryRequestData
   ): Promise<CustomerSkuViewRow[]> {
-    const whereClause = SqlHelper.getCojuctedWhereClause([
+    const whereClause = SqlHelper.getCombinedWhereClause([
       sql`sale_sku.sku_id = ${query.skuId}`,
       "posId" in query ? sql`pos.id = ${query.posId}` : empty,
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,

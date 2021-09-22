@@ -15,7 +15,7 @@ export default class TurnoverView {
   async getByQuery(
     query: PosIdQueryRequestData | PosTypeQueryRequestData
   ): Promise<TurnoverViewRow[]> {
-    const whereClause = SqlHelper.getCojuctedWhereClause([
+    const whereClause = SqlHelper.getCombinedWhereClause([
       "posId" in query ? sql`pos.id = ${query.posId}` : empty,
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
       ...SqlHelper.getDateRangeConditions(query, "sale.date"),

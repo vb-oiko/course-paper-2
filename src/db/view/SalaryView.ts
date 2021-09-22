@@ -15,7 +15,7 @@ export default class SalaryView {
   async getByPosIdOrPosType(
     query: PosIdQueryRequestData | PosTypeQueryRequestData
   ): Promise<SellerRow[]> {
-    const whereClause = SqlHelper.getCojuctedWhereClause([
+    const whereClause = SqlHelper.getCombinedWhereClause([
       "posId" in query ? sql`pos.id = ${query.posId}` : empty,
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
     ]);

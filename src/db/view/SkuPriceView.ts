@@ -16,7 +16,7 @@ export default class SkuPriceView {
     query: PosIdQueryRequestData | PosTypeQueryRequestData
   ): Promise<SkuQtyRow[]> {
     const whereClause = (sqlQuery: Sql = empty): Sql =>
-      SqlHelper.getCojuctedWhereClause([
+      SqlHelper.getCombinedWhereClause([
         "posId" in query ? sql`pos.id = ${query.posId}` : empty,
         "posType" in query ? sql`pos.type = ${query.posType}` : empty,
         sql`pos_sku.sku_id = ${query.skuId}`,

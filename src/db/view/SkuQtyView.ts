@@ -15,7 +15,7 @@ export default class SkuQtyView {
   async getByPosIdOrPosType(
     query: PosIdQueryRequestData | PosTypeQueryRequestData
   ): Promise<SkuQtyRow[]> {
-    const whereClause = SqlHelper.getCojuctedWhereClause([
+    const whereClause = SqlHelper.getCombinedWhereClause([
       "posId" in query ? sql`pos.id = ${query.posId}` : empty,
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
     ]);

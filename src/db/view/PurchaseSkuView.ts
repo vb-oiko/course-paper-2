@@ -14,7 +14,7 @@ export default class PurchaseSkuView {
   async getByPurchaseId(
     query: PurchaseSkuRequestData
   ): Promise<PurchaseSkuRow[]> {
-    const whereClause = SqlHelper.getCojuctedWhereClause([
+    const whereClause = SqlHelper.getCombinedWhereClause([
       sql`purchase_request.request_id = ${query.requestId}`,
     ]);
 

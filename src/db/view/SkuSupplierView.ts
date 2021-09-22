@@ -15,7 +15,7 @@ export default class SkuSupplierView {
   async getBySkuIdAndSupplierId(
     query: SkuSupplierRequestData
   ): Promise<SkuSupplierRow[]> {
-    const whereClause = SqlHelper.getCojuctedWhereClause([
+    const whereClause = SqlHelper.getCombinedWhereClause([
       sql`purchase_sku.sku_id = ${query.skuId}`,
       sql`purchase.supplier_id = ${query.supplierId}`,
       ...SqlHelper.getDateRangeConditions(query, "purchase.date"),

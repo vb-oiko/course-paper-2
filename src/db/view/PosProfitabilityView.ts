@@ -16,12 +16,12 @@ export default class PosProfitabilityView {
   async getProfitabilityByPosId(
     query: PosProfitabilityViewRequestData
   ): Promise<PosProfitabilityViewRow[]> {
-    const salesWhereClause = SqlHelper.getCojuctedWhereClause([
+    const salesWhereClause = SqlHelper.getCombinedWhereClause([
       sql`pos.id = ${query.posId}`,
       ...SqlHelper.getDateRangeConditions(query, "sale.date"),
     ]);
 
-    const expensesWhereClause = SqlHelper.getCojuctedWhereClause([
+    const expensesWhereClause = SqlHelper.getCombinedWhereClause([
       sql`pos.id = ${query.posId}`,
     ]);
 

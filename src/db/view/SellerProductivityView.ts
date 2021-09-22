@@ -15,12 +15,12 @@ export default class SellerProductivityView {
   async getAverageSellerProductivity(
     query: AverageSellerProductivityRequestData
   ): Promise<AverageSellerProductivityRow[]> {
-    const whereSaleClause = SqlHelper.getCojuctedWhereClause([
+    const whereSaleClause = SqlHelper.getCombinedWhereClause([
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
       ...SqlHelper.getDateRangeConditions(query, "sale.date"),
     ]);
 
-    const whereSellerClause = SqlHelper.getCojuctedWhereClause([
+    const whereSellerClause = SqlHelper.getCombinedWhereClause([
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
     ]);
 
@@ -67,7 +67,7 @@ export default class SellerProductivityView {
   async getSellerProductivity(
     query: SellerProductivityRequestData
   ): Promise<SellerProductivityRow[]> {
-    const whereSaleClause = SqlHelper.getCojuctedWhereClause([
+    const whereSaleClause = SqlHelper.getCombinedWhereClause([
       "sellerId" in query ? sql`seller.id = ${query.sellerId}` : empty,
       ...SqlHelper.getDateRangeConditions(query, "sale.date"),
     ]);

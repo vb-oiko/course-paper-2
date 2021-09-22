@@ -15,7 +15,7 @@ export default class SalesRateView {
   async getSalesRate(
     query: SalesRateViewRequestData
   ): Promise<SalesRateViewRow[]> {
-    const whereClause = SqlHelper.getCojuctedWhereClause([
+    const whereClause = SqlHelper.getCombinedWhereClause([
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
     ]);
 
@@ -49,7 +49,7 @@ export default class SalesRateView {
   async getSellersTotals(
     query: SalesRateViewRequestData
   ): Promise<SalesRateViewRow[]> {
-    const whereClause = SqlHelper.getCojuctedWhereClause([
+    const whereClause = SqlHelper.getCombinedWhereClause([
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
     ]);
 
