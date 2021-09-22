@@ -2,6 +2,7 @@ import { format as formatDate, parse as parseDate } from "date-fns";
 import { format as formatSql } from "mysql2/promise";
 import sql, { empty, join, raw, Sql, Value } from "sql-template-tag";
 import { DateRangeRequestData, LimitOffsetRequestData } from "../types";
+import prettier from "prettier";
 
 export default class SqlHelper {
   static booleanToInt(value: boolean): number {
@@ -88,13 +89,26 @@ export default class SqlHelper {
 
       const next = getNext(sql.values);
 
-      console.log(sql.sql.replace(/\?/g, next));
+      const sourceCode = sql.sql.replace(/\?/g, next);
+
+      const formattedCode = prettier.format(sourceCode, {
+        parser: "sql",
+      });
+
+      console.log();
+      console.log(formattedCode);
     }
   }
 
   static log(debug = true, ...args: unknown[]): void {
     if (debug) {
-      console.log(...args);
+      const sourceCodes = args.map((code) =>
+        prettier.format(JSON.stringify(code), {
+          parser: "json-stringify",
+        })
+      );
+      console.log();
+      console.log(...sourceCodes);
     }
   }
 }
