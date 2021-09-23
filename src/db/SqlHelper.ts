@@ -22,10 +22,13 @@ export default class SqlHelper {
   }
 
   static joinWithAnd(values: Sql[]): Sql {
-    return join(
-      values.filter((value) => value.text !== ""),
-      " AND "
-    );
+    const nonEmptyValues = values.filter((value) => value.text !== "");
+
+    if (nonEmptyValues.length === 0) {
+      return empty;
+    }
+
+    return join(nonEmptyValues, " AND ");
   }
 
   static getCombinedWhereClause(conditions: Sql[]): Sql {
