@@ -5,6 +5,7 @@ import Example2 from "./db/example/Example2";
 import Example3 from "./db/example/Example3";
 import Example4 from "./db/example/Example4";
 import Example5 from "./db/example/Example5";
+import Example6 from "./db/example/Example6";
 
 const main = async () => {
   const db = await DB.getConnection();
@@ -14,7 +15,8 @@ const main = async () => {
   // await new Example15(db).run();
   // await new Example3(db).run();
   // await new Example4(db).run();
-  await new Example5(db).run();
+  // await new Example5(db).run();
+  await new Example6(db).run();
 
   await db.end();
 };
