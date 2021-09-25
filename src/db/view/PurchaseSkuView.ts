@@ -11,7 +11,7 @@ export default class PurchaseSkuView {
     this.debug = debug;
   }
 
-  async getByPurchaseId(
+  async getByRequestId(
     query: PurchaseSkuRequestData
   ): Promise<PurchaseSkuRow[]> {
     const whereClause = SqlHelper.getCombinedWhereClause([
