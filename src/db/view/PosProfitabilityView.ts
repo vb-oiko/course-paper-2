@@ -1,6 +1,5 @@
 import { Connection } from "mysql2/promise";
-import sql, { empty } from "sql-template-tag";
-import { PosType } from "../../types";
+import sql from "sql-template-tag";
 import SqlHelper from "../SqlHelper";
 import { DateRangeRequestData } from "../../types";
 
