@@ -100,11 +100,11 @@ export default class SkuPriceView {
         HAVING qty > 0
     `;
 
-    console.warn(totalsSqlQuery.text);
+    SqlHelper.logSql(this.debug, totalsSqlQuery);
 
     const [rows] = await this.db.query(totalsSqlQuery);
 
-    console.log(rows);
+    SqlHelper.log(this.debug, rows);
 
     return rows as SkuQtyRow[];
     return [] as SkuQtyRow[];
