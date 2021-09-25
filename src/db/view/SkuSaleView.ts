@@ -16,6 +16,7 @@ export default class SkuSaleView {
     query: PosIdQueryRequestData | PosTypeQueryRequestData
   ): Promise<SkuQtyRow[]> {
     const whereClause = SqlHelper.getCombinedWhereClause([
+      "skuId" in query ? sql`sku.id = ${query.skuId}` : empty,
       "posId" in query ? sql`pos.id = ${query.posId}` : empty,
       "posType" in query ? sql`pos.type = ${query.posType}` : empty,
       ...SqlHelper.getDateRangeConditions(query, "sale.date"),
@@ -49,10 +50,12 @@ export default class SkuSaleView {
 
 export interface PosIdQueryRequestData extends DateRangeRequestData {
   posId?: number;
+  skuId: number;
 }
 
 export interface PosTypeQueryRequestData extends DateRangeRequestData {
   posType?: PosType;
+  skuId: number;
 }
 
 export interface SkuQtyRow {
