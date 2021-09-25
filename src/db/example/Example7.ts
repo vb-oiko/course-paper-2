@@ -2,7 +2,7 @@ import { PosType } from "../../types";
 import SkuSaleView from "../view/SkuSaleView";
 import BaseExample from "./BaseExample";
 
-export default class Example6 extends BaseExample {
+export default class Example7 extends BaseExample {
   async run(): Promise<void> {
     const skuSaleView = new SkuSaleView(this.db, true);
 

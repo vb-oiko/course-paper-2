@@ -22,7 +22,7 @@ export default class SalaryView {
 
     const saleSqlQuery = sql`
         SELECT
-            seller.id, seller.name, seller.salary
+            seller.id, seller.name, seller.salary, seller.pos_id as posId
         FROM
             seller
         JOIN
