@@ -58,8 +58,8 @@ export default class SellerProductivityView {
 
     const [rows] = await this.db.query(productivitySqlQuery);
 
-    console.warn(productivitySqlQuery.text);
-    console.log(rows);
+    SqlHelper.logSql(this.debug, productivitySqlQuery);
+    SqlHelper.log(this.debug, rows);
 
     return rows as AverageSellerProductivityRow[];
   }
@@ -88,8 +88,8 @@ export default class SellerProductivityView {
 
     const [rows] = await this.db.query(saleTotalsSqlQuery);
 
-    console.warn(saleTotalsSqlQuery.text);
-    console.log(rows);
+    SqlHelper.logSql(this.debug, saleTotalsSqlQuery);
+    SqlHelper.log(this.debug, rows);
 
     return rows as AverageSellerProductivityRow[];
   }
