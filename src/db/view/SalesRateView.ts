@@ -47,16 +47,16 @@ export default class SalesRateView {
   }
 
   async getSellersTotals(
-    query: SalesRateViewRequestData
-  ): Promise<SalesRateViewRow[]> {
+    query: SellersTotalRequestData
+  ): Promise<SellersTotalRow[]> {
     const whereClause = SqlHelper.getCombinedWhereClause([
-      "posType" in query ? sql`pos.type = ${query.posType}` : empty,
+      "posId" in query ? sql`pos.id = ${query.posId}` : empty,
     ]);
 
     const saleRateSqlQuery = sql`
         SELECT
-            seller.*,
-            SUM(sale_sku.qty * sale_sku.price) as sales_total
+            seller.id, seller.name,
+            SUM(sale_sku.qty * sale_sku.price) as total
         FROM
             sale_sku
         JOIN
@@ -74,7 +74,7 @@ export default class SalesRateView {
     SqlHelper.logSql(this.debug, saleRateSqlQuery);
     SqlHelper.log(this.debug, rows);
 
-    return rows as SalesRateViewRow[];
+    return rows as SellersTotalRow[];
   }
 }
 
@@ -87,4 +87,14 @@ export interface SalesRateViewRow {
   supplierId: number;
   qty: number;
   date: Date;
+}
+
+export interface SellersTotalRequestData {
+  posId: number;
+}
+
+export interface SellersTotalRow {
+  id: number;
+  name: string;
+  total: number;
 }

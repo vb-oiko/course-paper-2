@@ -1,5 +1,6 @@
 import DB from "./db/connection";
 import Example1 from "./db/example/Example1";
+import Example10 from "./db/example/Example10";
 import Example15 from "./db/example/Example15";
 import Example2 from "./db/example/Example2";
 import Example3 from "./db/example/Example3";
@@ -22,7 +23,8 @@ const main = async () => {
   // await new Example6(db).run();
   // await new Example7(db).run();
   // await new Example8(db).run();
-  await new Example9(db).run();
+  // await new Example9(db).run();
+  await new Example10(db).run();
 
   await db.end();
 };
