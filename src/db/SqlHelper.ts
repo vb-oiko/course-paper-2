@@ -107,7 +107,7 @@ export default class SqlHelper {
     if (debug) {
       const sourceCodes = args.map((code) =>
         prettier.format(JSON.stringify(code), {
-          parser: "json-stringify",
+          parser: "json",
         })
       );
       console.log();
