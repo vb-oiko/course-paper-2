@@ -1,7 +1,7 @@
 import TurnoverView from "../view/TurnoverView";
 import BaseExample from "./BaseExample";
 
-export default class Example1 extends BaseExample {
+export default class Example15 extends BaseExample {
   async run(): Promise<void> {
     console.log(
       "\nОтримати дані про товарообіг торгової точки, або всіх торгових точок певної групи за вказаний період.\n"
