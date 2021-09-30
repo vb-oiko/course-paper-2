@@ -1,5 +1,5 @@
 import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import sql, { join, raw, Sql, Value } from "sql-template-tag";
+import sql, { empty, join, raw, Sql, Value } from "sql-template-tag";
 import { InsertRow, Table } from "../../types";
 import SqlHelper from "../SqlHelper";
 
@@ -130,4 +130,46 @@ export default class BaseTable<T> implements Table<T> {
       console.log("query parameters: ", query);
     }
   }
+
+  async apiGetList(query: ApiListQuery): Promise<ApiGetListResponse<T>> {
+    const { _start: start, _end: end } = query;
+    const offsetClause = Number(start) ? sql`OFFSET ${Number(start)}` : empty;
+
+    const limitClause =
+      start && end && end - start > 0 ? sql`LIMIT ${end - start}` : empty;
+
+    const listSqlQuery = sql`
+      SELECT * FROM ${raw("db." + this.tableName)}
+    `;
+
+    const pageSqlQuery = join([listSqlQuery, limitClause, offsetClause], " ");
+    SqlHelper.logSql(true, pageSqlQuery);
+    const [rows] = await this.db.query(pageSqlQuery);
+
+    const list = (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
+
+    const totalSqlQuery = sql`
+      SELECT 
+        COUNT(*) as total
+      FROM (${listSqlQuery}) as list
+    `;
+
+    const [totalRows] = await this.db.query(totalSqlQuery);
+    const total = (totalRows as RowDataPacket[])[0].total as unknown as number;
+
+    return {
+      list,
+      total,
+    };
+  }
+}
+
+export interface ApiListQuery {
+  _start?: number;
+  _end?: number;
+}
+
+export interface ApiGetListResponse<T> {
+  list: T[];
+  total: number;
 }

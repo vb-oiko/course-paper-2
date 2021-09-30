@@ -1,45 +1,31 @@
 import express from "express";
 import cors from "cors";
+import DB from "./db/connection";
+import PosTable from "./db/table/PosTable";
 
-const PORT = process.env.PORT || 3001;
+const main = async () => {
+  const PORT = process.env.PORT || 3001;
+  const db = await DB.getConnection();
 
-const app = express();
-app.use(
-  cors({
-    allowedHeaders: ["X-Total-Count"],
-    exposedHeaders: ["X-Total-Count"],
-  })
-);
+  const app = express();
+  app.use(
+    cors({
+      allowedHeaders: ["X-Total-Count"],
+      exposedHeaders: ["X-Total-Count"],
+    })
+  );
 
-app.get("/api/users", (req, res) => {
-  res.setHeader("X-Total-Count", 1);
-  res.json([
-    {
-      id: 2,
-      name: "Ervin Howell",
-      username: "Antonette",
-      email: "Shanna@melissa.tv",
-      address: {
-        street: "Victor Plains",
-        suite: "Suite 879",
-        city: "Wisokyburgh",
-        zipcode: "90566-7771",
-        geo: {
-          lat: "-43.9509",
-          lng: "-34.4618",
-        },
-      },
-      phone: "010-692-6593 x09125",
-      website: "anastasia.net",
-      company: {
-        name: "Deckow-Crist",
-        catchPhrase: "Proactive didactic contingency",
-        bs: "synergize scalable supply-chains",
-      },
-    },
-  ]);
-});
+  const posTable = new PosTable(db);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+  app.get("/api/poss", async (req, res) => {
+    const { list, total } = await posTable.apiGetList(req.query);
+    res.setHeader("X-Total-Count", total);
+    res.json(list);
+  });
+
+  app.listen(PORT, () => {
+    console.log(`Server listening on ${PORT}`);
+  });
+};
+
+main();

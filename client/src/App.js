@@ -5,7 +5,7 @@ import jsonServerProvider from "ra-data-json-server";
 const dataProvider = jsonServerProvider("http://localhost:3001/api");
 const App = () => (
   <Admin dataProvider={dataProvider}>
-    <Resource name="users" list={ListGuesser} />
+    <Resource name="poss" list={ListGuesser} />
   </Admin>
 );
 
