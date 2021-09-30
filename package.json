@@ -12,6 +12,7 @@
     "watch-ts": "tsc -w",
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
     "watch-node": "nodemon dist/index.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "migrate": "tsc && node ./dist/db/migrate.js",
