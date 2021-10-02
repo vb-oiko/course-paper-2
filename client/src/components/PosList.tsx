@@ -1,7 +1,7 @@
 import * as React from "react";
 import { List, Datagrid, TextField, NumberField } from "react-admin";
 
-export const PossList: React.FunctionComponent = (props) => (
+export const PosList: React.FunctionComponent = (props) => (
   <List {...props}>
     <Datagrid rowClick="edit">
       <TextField source="id" />
