@@ -4,12 +4,18 @@ import jsonServerProvider from "ra-data-json-server";
 import { PosList } from "./components/PosList";
 import { SellerList } from "./components/SellerList";
 import { SellerEdit } from "./components/SellerEdit";
+import { SellerCreate } from "./components/SellerCreate";
 
 const dataProvider = jsonServerProvider("http://localhost:3001/api");
 const App = () => (
   <Admin dataProvider={dataProvider}>
     <Resource name="pos" list={PosList} />
-    <Resource name="seller" list={SellerList} edit={SellerEdit} />
+    <Resource
+      name="seller"
+      list={SellerList}
+      // edit={SellerEdit}
+      create={SellerCreate}
+    />
   </Admin>
 );
 
