@@ -13,7 +13,7 @@ const App = () => (
     <Resource
       name="seller"
       list={SellerList}
-      // edit={SellerEdit}
+      edit={SellerEdit}
       create={SellerCreate}
     />
   </Admin>
