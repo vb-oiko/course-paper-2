@@ -13,7 +13,7 @@ export const SellerList: React.FunctionComponent = (props) => (
       <TextField source="id" />
       <TextField source="name" />
       <NumberField source="salary" />
-      <ReferenceField source="pos_id" reference="poss">
+      <ReferenceField source="pos_id" reference="pos">
         <TextField source="name" />
       </ReferenceField>
     </Datagrid>
