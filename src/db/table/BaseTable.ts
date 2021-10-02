@@ -131,19 +131,34 @@ export default class BaseTable<T> implements Table<T> {
     }
   }
 
-  async apiGetList(query: ApiListQuery): Promise<ApiGetListResponse<T>> {
-    const { _start: start, _end: end } = query;
+  async getMany(
+    query: Record<string, unknown>
+  ): Promise<ApiGetListResponse<T>> {
+    const { _start: start, _end: end, _order, _sort: sort, id } = query;
+    const order = _order ? _order : "ASC";
     const offsetClause = Number(start) ? sql`OFFSET ${Number(start)}` : empty;
 
     const limitClause =
-      start && end && end - start > 0 ? sql`LIMIT ${end - start}` : empty;
+      start && end && Number(end) - Number(start) > 0
+        ? sql`LIMIT ${Number(end) - Number(start)}`
+        : empty;
+
+    const orderClause = sort
+      ? sql`ORDER BY ${raw(String(sort))} ${raw(String(order))}`
+      : empty;
+    const whereClause = Number(id) ? sql`WHERE id = ${Number(id)}` : empty;
 
     const listSqlQuery = sql`
       SELECT * FROM ${raw("db." + this.tableName)}
     `;
 
-    const pageSqlQuery = join([listSqlQuery, limitClause, offsetClause], " ");
+    const pageSqlQuery = join(
+      [listSqlQuery, orderClause, whereClause, limitClause, offsetClause],
+      " "
+    );
+
     SqlHelper.logSql(true, pageSqlQuery);
+
     const [rows] = await this.db.query(pageSqlQuery);
 
     const list = (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
@@ -162,11 +177,21 @@ export default class BaseTable<T> implements Table<T> {
       total,
     };
   }
-}
 
-export interface ApiListQuery {
-  _start?: number;
-  _end?: number;
+  async getOne(id: string): Promise<T> {
+    const listQuery = sql`
+      SELECT 
+        * 
+      FROM 
+        ${raw("db." + this.tableName)}
+      WHERE
+        id = ${Number(id)}
+    `;
+
+    const [rows] = await this.db.query(listQuery);
+
+    return this.mapFromDb((rows as RowDataPacket[])[0]);
+  }
 }
 
 export interface ApiGetListResponse<T> {

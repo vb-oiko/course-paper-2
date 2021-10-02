@@ -20,16 +20,27 @@ const main = async () => {
   const posTable = new PosTable(db);
   const sellerTable = new SellerTable(db);
 
-  const listRequestHandler =
+  const getManyRequestHandler =
     <T>(table: BaseTable<T>) =>
     async (req: Request, res: Response) => {
-      const { list, total } = await table.apiGetList(req.query);
+      const { list, total } = await table.getMany(req.query);
       res.setHeader("X-Total-Count", total);
       res.json(list);
     };
 
-  app.get("/api/poss", listRequestHandler(posTable));
-  app.get("/api/sellers", listRequestHandler(sellerTable));
+  const getOneRequestHandler =
+    <T>(table: BaseTable<T>) =>
+    async (req: Request, res: Response) => {
+      const { id } = req.params;
+      const entity = await table.getOne(id);
+      res.json(entity);
+    };
+
+  app.get("/api/pos", getManyRequestHandler(posTable));
+  app.get("/api/seller", getManyRequestHandler(sellerTable));
+
+  app.get("/api/pos/:id", getOneRequestHandler(posTable));
+  app.get("/api/seller/:id", getOneRequestHandler(sellerTable));
 
   app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
