@@ -157,8 +157,6 @@ export default class BaseTable<T> implements Table<T> {
       " "
     );
 
-    SqlHelper.logSql(true, pageSqlQuery);
-
     const [rows] = await this.db.query(pageSqlQuery);
 
     const list = (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
