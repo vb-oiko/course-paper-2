@@ -9,6 +9,7 @@
 - `yarn db:up`
 - `yarn migrate up`
 - `yarn seed up`
+- `yarn watch`
 
 ## Завдання на курсову роботу з БАЗ ДАНИХ
 
