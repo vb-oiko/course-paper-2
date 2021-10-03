@@ -43,7 +43,7 @@ export default class TableRouter<T> {
       res.setHeader("X-Total-Count", total);
       res.json(list);
     } catch (err) {
-      this.defaultErrorHandler(res)(err);
+      this.defaultErrorHandler(res)(err as Error);
     }
   }
 
