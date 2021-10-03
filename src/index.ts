@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import DB from "./db/connection";
 import PosTable from "./db/table/PosTable";
@@ -21,39 +21,47 @@ const main = async () => {
   const posTable = new PosTable(db);
   const sellerTable = new SellerTable(db);
 
+  const defaultErrorHandler = (res: Response) => (error: Error) => {
+    res.status(500).json({ message: error.message });
+  };
+
   const getManyRequestHandler =
     <T>(table: BaseTable<T>) =>
     async (req: Request, res: Response) => {
-      const { list, total } = await table.getMany(req.query);
-      res.setHeader("X-Total-Count", total);
-      res.json(list);
+      try {
+        const { list, total } = await table.getMany(req.query);
+        res.setHeader("X-Total-Count", total);
+        res.json(list);
+      } catch (err) {
+        defaultErrorHandler(res)(err);
+      }
     };
 
   const getOneRequestHandler =
     <T>(table: BaseTable<T>) =>
     async (req: Request, res: Response) => {
       const { id } = req.params;
-      const entity = await table.getOne(id);
+      const entity = await table.getOne(id).catch(defaultErrorHandler(res));
       res.json(entity);
     };
 
   const putRequestHandler =
     <T>(table: BaseTable<T>) =>
     async (req: Request, res: Response) => {
-      res.json(await table.update(req.body));
+      res.json(await table.update(req.body).catch(defaultErrorHandler(res)));
     };
 
   const createRequestHandler =
     <T>(table: BaseTable<T>) =>
     async (req: Request, res: Response) => {
-      res.json(await table.create(req.body));
+      res.json(await table.create(req.body).catch(defaultErrorHandler(res)));
     };
 
   const deleteRequestHandler =
     <T>(table: BaseTable<T>) =>
     async (req: Request, res: Response) => {
       const { id } = req.params;
-      res.json(await table.delete(id));
+      res.json(await table.delete(id).catch(defaultErrorHandler(res)));
     };
 
   app.get("/api/pos", getManyRequestHandler(posTable));
@@ -70,6 +78,11 @@ const main = async () => {
 
   app.delete("/api/pos/:id", deleteRequestHandler(posTable));
   app.delete("/api/seller/:id", deleteRequestHandler(sellerTable));
+
+  app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
+    res.status(500);
+    res.render("error", { error: err });
+  });
 
   app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
