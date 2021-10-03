@@ -12,7 +12,6 @@ const main = async () => {
   const app = express();
   app.use(
     cors({
-      allowedHeaders: ["X-Total-Count"],
       exposedHeaders: ["X-Total-Count"],
     })
   );
@@ -41,6 +40,8 @@ const main = async () => {
 
   app.get("/api/pos/:id", getOneRequestHandler(posTable));
   app.get("/api/seller/:id", getOneRequestHandler(sellerTable));
+
+  app.put("/api/seller/:id", getOneRequestHandler(sellerTable));
 
   app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
