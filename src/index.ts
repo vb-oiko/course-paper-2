@@ -49,6 +49,13 @@ const main = async () => {
       res.json(await table.create(req.body));
     };
 
+  const deleteRequestHandler =
+    <T>(table: BaseTable<T>) =>
+    async (req: Request, res: Response) => {
+      const { id } = req.params;
+      res.json(await table.delete(id));
+    };
+
   app.get("/api/pos", getManyRequestHandler(posTable));
   app.get("/api/seller", getManyRequestHandler(sellerTable));
 
@@ -60,6 +67,9 @@ const main = async () => {
 
   app.post("/api/pos", createRequestHandler(posTable));
   app.post("/api/seller", createRequestHandler(sellerTable));
+
+  app.delete("/api/pos/:id", deleteRequestHandler(posTable));
+  app.delete("/api/seller/:id", deleteRequestHandler(sellerTable));
 
   app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

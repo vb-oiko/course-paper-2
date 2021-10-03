@@ -229,6 +229,19 @@ export default class BaseTable<T> implements Table<T> {
     const id = (resultSetHeader as ResultSetHeader).insertId;
     return { id, ...entity };
   }
+
+  async delete(id: string): Promise<number> {
+    const deleteQuery = sql`
+      DELETE FROM 
+        ${raw("db." + this.tableName)}
+      WHERE
+        id = ${Number(id)}
+    `;
+
+    await this.db.query(deleteQuery);
+
+    return Number(id);
+  }
 }
 
 export interface ApiGetListResponse<T> {
