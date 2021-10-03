@@ -5,6 +5,7 @@ import sku from "./components/sku";
 import category from "./components/category";
 import seller from "./components/seller";
 import customer from "./components/customer";
+import posSku from "./components/pos-sku";
 
 const dataProvider = jsonServerProvider("http://localhost:3001/api");
 
@@ -15,6 +16,7 @@ const App = () => (
     <Resource name="pos" {...pos} />
     <Resource name="seller" {...seller} />
     <Resource name="customer" {...customer} />
+    <Resource name="pos_sku" {...posSku} />
   </Admin>
 );
 
