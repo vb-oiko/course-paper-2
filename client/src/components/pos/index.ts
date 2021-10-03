@@ -1,7 +1,8 @@
+import { ResourceProps } from "react-admin";
 import { PosEdit } from "./PosEdit";
 import { PosList } from "./PosList";
 
-const pos = {
+const pos: Partial<ResourceProps> = {
   edit: PosEdit,
   list: PosList,
 };
