@@ -134,7 +134,14 @@ export default class BaseTable<T> implements Table<T> {
   async getMany(
     query: Record<string, unknown>
   ): Promise<ApiGetListResponse<T>> {
-    const { _start: start, _end: end, _order, _sort: sort, id } = query;
+    const {
+      _start: start,
+      _end: end,
+      _order,
+      _sort: sort,
+      id,
+      ...filter
+    } = query;
     const order = _order ? _order : "ASC";
     const offsetClause = Number(start) ? sql`OFFSET ${Number(start)}` : empty;
 
@@ -146,25 +153,40 @@ export default class BaseTable<T> implements Table<T> {
     const orderClause = sort
       ? sql`ORDER BY ${raw(String(sort))} ${raw(String(order))}`
       : empty;
-    const whereClause = Number(id) ? sql`WHERE id = ${Number(id)}` : empty;
+
+    const filterConditions = Object.entries(filter)
+      .filter(([key, value]) => key !== "id")
+      .map(([key, value]) => sql`${raw(key)} = ${value as RawValue}`);
+
+    const idCondition = SqlHelper.getIdCondition(id as string | string[]);
+
+    const conditions = [...filterConditions, idCondition].filter(
+      (sql) => sql.text
+    );
+
+    const whereClause = conditions.length
+      ? sql`WHERE ${join(conditions, " AND ")}`
+      : empty;
 
     const listSqlQuery = sql`
       SELECT * FROM ${raw("db." + this.tableName)}
     `;
 
-    const pageSqlQuery = join(
-      [listSqlQuery, orderClause, whereClause, limitClause, offsetClause],
+    const filteredSqlQuery = join([listSqlQuery, whereClause], " ");
+
+    const paginatedSqlQuery = join(
+      [filteredSqlQuery, orderClause, limitClause, offsetClause],
       " "
     );
 
-    const [rows] = await this.db.query(pageSqlQuery);
+    const [rows] = await this.db.query(paginatedSqlQuery);
 
     const list = (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
 
     const totalSqlQuery = sql`
       SELECT 
         COUNT(*) as total
-      FROM (${listSqlQuery}) as list
+      FROM (${filteredSqlQuery}) as list
     `;
 
     const [totalRows] = await this.db.query(totalSqlQuery);

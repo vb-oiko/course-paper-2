@@ -114,4 +114,16 @@ export default class SqlHelper {
       console.log(...sourceCodes);
     }
   }
+
+  static getIdCondition(id: undefined | string | string[]): Sql {
+    if (!id) {
+      return empty;
+    }
+
+    if (typeof id === "string") {
+      return sql`id = ${id}`;
+    }
+
+    return sql`id IN (${join(id)})`;
+  }
 }
