@@ -10,7 +10,6 @@ import {
 export const SkuCreate: React.FunctionComponent = (props) => (
   <Create {...props}>
     <SimpleForm>
-      <TextInput source="id" disabled />
       <ReferenceInput source="category_id" reference="category">
         <SelectInput optionText="name" />
       </ReferenceInput>
