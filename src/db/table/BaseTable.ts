@@ -211,6 +211,24 @@ export default class BaseTable<T> implements Table<T> {
 
     return await this.getOne(String(id));
   }
+
+  async create(entity: T): Promise<T> {
+    const columnList = join(Object.keys(entity).map((key) => sql`${raw(key)}`));
+
+    const valueList = join(Object.values(entity).map((value) => sql`${value}`));
+
+    const createQuery = sql`
+      INSERT INTO 
+        ${raw("db." + this.tableName)}
+        (${columnList})
+        VALUES
+        (${valueList})
+    `;
+
+    const [resultSetHeader] = await this.db.query(createQuery);
+    const id = (resultSetHeader as ResultSetHeader).insertId;
+    return { id, ...entity };
+  }
 }
 
 export interface ApiGetListResponse<T> {

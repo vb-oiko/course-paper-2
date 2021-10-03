@@ -40,8 +40,13 @@ const main = async () => {
   const putRequestHandler =
     <T>(table: BaseTable<T>) =>
     async (req: Request, res: Response) => {
-      const entity = await table.update(req.body);
-      res.json(entity);
+      res.json(await table.update(req.body));
+    };
+
+  const createRequestHandler =
+    <T>(table: BaseTable<T>) =>
+    async (req: Request, res: Response) => {
+      res.json(await table.create(req.body));
     };
 
   app.get("/api/pos", getManyRequestHandler(posTable));
@@ -52,6 +57,9 @@ const main = async () => {
 
   app.put("/api/pos/:id", putRequestHandler(posTable));
   app.put("/api/seller/:id", putRequestHandler(sellerTable));
+
+  app.post("/api/pos", createRequestHandler(posTable));
+  app.post("/api/seller", createRequestHandler(sellerTable));
 
   app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
