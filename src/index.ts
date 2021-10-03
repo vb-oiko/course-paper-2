@@ -16,6 +16,8 @@ const main = async () => {
     })
   );
 
+  app.use(express.json());
+
   const posTable = new PosTable(db);
   const sellerTable = new SellerTable(db);
 
@@ -35,13 +37,21 @@ const main = async () => {
       res.json(entity);
     };
 
+  const putRequestHandler =
+    <T>(table: BaseTable<T>) =>
+    async (req: Request, res: Response) => {
+      const entity = await table.update(req.body);
+      res.json(entity);
+    };
+
   app.get("/api/pos", getManyRequestHandler(posTable));
   app.get("/api/seller", getManyRequestHandler(sellerTable));
 
   app.get("/api/pos/:id", getOneRequestHandler(posTable));
   app.get("/api/seller/:id", getOneRequestHandler(sellerTable));
 
-  app.put("/api/seller/:id", getOneRequestHandler(sellerTable));
+  app.put("/api/pos/:id", putRequestHandler(posTable));
+  app.put("/api/seller/:id", putRequestHandler(sellerTable));
 
   app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

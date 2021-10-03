@@ -1,5 +1,5 @@
 import { Connection, ResultSetHeader, RowDataPacket } from "mysql2/promise";
-import sql, { empty, join, raw, Sql, Value } from "sql-template-tag";
+import sql, { empty, join, raw, RawValue, Sql, Value } from "sql-template-tag";
 import { InsertRow, Table } from "../../types";
 import SqlHelper from "../SqlHelper";
 
@@ -189,6 +189,27 @@ export default class BaseTable<T> implements Table<T> {
     const [rows] = await this.db.query(listQuery);
 
     return this.mapFromDb((rows as RowDataPacket[])[0]);
+  }
+
+  async update(entity: T): Promise<T> {
+    const { id, ...rest } = entity as unknown as Record<string, RawValue>;
+
+    const assignmentList = join(
+      Object.entries(rest).map(([key, value]) => sql`${raw(key)} = ${value}`)
+    );
+
+    const updateQuery = sql`
+      UPDATE 
+        ${raw("db." + this.tableName)}
+      SET
+        ${assignmentList}
+      WHERE
+        id = ${Number(id)}
+    `;
+
+    await this.db.query(updateQuery);
+
+    return await this.getOne(String(id));
   }
 }
 

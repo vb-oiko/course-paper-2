@@ -9,7 +9,7 @@ import {
 } from "react-admin";
 
 export const SellerEdit: React.FunctionComponent = (props) => (
-  <Edit {...props}>
+  <Edit {...props} undoable={false}>
     <SimpleForm>
       <NumberInput disabled source="id" />
       <ReferenceInput source="pos_id" reference="pos">
