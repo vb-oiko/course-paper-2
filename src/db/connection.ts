@@ -12,8 +12,8 @@ export default class DB {
       database: process.env.DB_DATABASE,
       password: process.env.DB_PASSWORD,
     }).catch((err) => {
-        console.warn("DB connection eror", err);
-        return Promise.reject();
+      console.warn("DB connection error", err);
+      return Promise.reject();
     });
 
     console.warn("DB connected");

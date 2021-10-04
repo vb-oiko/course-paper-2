@@ -1,5 +1,5 @@
 import { Express, Request, Response } from "express";
-import BaseTable from "./db/table/BaseTable";
+import BaseTable from "../db/table/BaseTable";
 
 export default class TableRouter<T> {
   private readonly table: BaseTable<T>;
