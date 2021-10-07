@@ -21,7 +21,7 @@ export default class SaleTable extends BaseTable<Sale> {
 
     return {
       id,
-      date: SqlHelper.dateTimeToDate(date),
+      date,
       seller_id,
       customer_id,
     };

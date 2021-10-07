@@ -20,7 +20,7 @@ export default class PurchaseTable extends BaseTable<Purchase> {
 
     return {
       id,
-      date: SqlHelper.dateTimeToDate(date),
+      date,
       supplier_id,
     };
   }

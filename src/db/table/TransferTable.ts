@@ -21,7 +21,7 @@ export default class TransferTable extends BaseTable<Transfer> {
 
     return {
       id,
-      date: SqlHelper.dateTimeToDate(date),
+      date,
       from_pos_id,
       to_pos_id,
     };

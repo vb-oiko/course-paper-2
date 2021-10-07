@@ -8,7 +8,7 @@ export default class RequestTable extends BaseTable<Request> {
 
   mapToDb(data: InsertRow<Request>): RowDataPacket {
     const { date, pos_id, fulfilled } = data;
-    
+
     return {
       date: SqlHelper.dateToDateTime(date),
       pos_id,
@@ -21,7 +21,7 @@ export default class RequestTable extends BaseTable<Request> {
 
     return {
       id,
-      date: SqlHelper.dateTimeToDate(date),
+      date,
       pos_id,
       fulfilled: Boolean(fulfilled),
     };
