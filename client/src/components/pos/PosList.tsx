@@ -1,9 +1,16 @@
 import * as React from "react";
-import { List, Datagrid, TextField, NumberField } from "react-admin";
+import {
+  List,
+  Datagrid,
+  TextField,
+  NumberField,
+  EditButton,
+  ShowButton,
+} from "react-admin";
 
 export const PosList: React.FunctionComponent = (props) => (
   <List {...props}>
-    <Datagrid rowClick="edit">
+    <Datagrid rowClick="show">
       <TextField source="id" />
       <TextField source="name" />
       <TextField source="type" />
@@ -14,6 +21,8 @@ export const PosList: React.FunctionComponent = (props) => (
       <NumberField source="departments" />
       <NumberField source="halls" />
       <NumberField source="workplaces" />
+      <EditButton />
+      <ShowButton />
     </Datagrid>
   </List>
 );

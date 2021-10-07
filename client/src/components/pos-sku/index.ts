@@ -1,8 +1,8 @@
 import { ResourceProps } from "react-admin";
-import { PosSkuList } from "./PosSkuList";
+// import { PosSkuList } from "./PosSkuList";
 
 const posSku: Partial<ResourceProps> = {
-  list: PosSkuList,
+  // list: PosSkuList,
 };
 
 export default posSku;

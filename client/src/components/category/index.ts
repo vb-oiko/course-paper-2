@@ -7,6 +7,7 @@ const category: Partial<ResourceProps> = {
   edit: CategoryEdit,
   list: CategoryList,
   create: CategoryCreate,
+  options: { label: "SKU Categories" },
 };
 
 export default category;
