@@ -131,6 +131,10 @@ export default class BaseTable<T> implements Table<T> {
     }
   }
 
+  getJoinedTablesStatement(): Sql {
+    return empty;
+  }
+
   async getMany(
     query: Record<string, unknown>
   ): Promise<ApiGetListResponse<T>> {
@@ -169,7 +173,10 @@ export default class BaseTable<T> implements Table<T> {
       : empty;
 
     const listSqlQuery = sql`
-      SELECT * FROM ${raw("db." + this.tableName)}
+      SELECT ${raw("db." + this.tableName)}.* FROM ${raw(
+      "db." + this.tableName
+    )}
+      ${this.getJoinedTablesStatement()}
     `;
 
     const filteredSqlQuery = join([listSqlQuery, whereClause], " ");

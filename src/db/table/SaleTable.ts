@@ -1,4 +1,6 @@
 import { RowDataPacket } from "mysql2/promise";
+import sql, { Sql } from "sql-template-tag";
+
 import { InsertRow, Sale } from "../../types";
 import SqlHelper from "../SqlHelper";
 import BaseTable from "./BaseTable";
@@ -25,5 +27,12 @@ export default class SaleTable extends BaseTable<Sale> {
       seller_id,
       customer_id,
     };
+  }
+
+  getJoinedTablesStatement(): Sql {
+    return sql`
+      JOIN seller ON sale.seller_id = seller.id
+      JOIN pos ON seller.pos_id = pos.id
+    `;
   }
 }
