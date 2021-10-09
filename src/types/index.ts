@@ -94,6 +94,7 @@ export interface Sale extends Entity {
   date: Date;
   seller_id: number;
   customer_id: number;
+  total?: number;
 }
 
 export interface SaleSku extends Entity {

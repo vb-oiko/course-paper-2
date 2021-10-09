@@ -19,13 +19,14 @@ export default class SaleTable extends BaseTable<Sale> {
   }
 
   mapFromDb(data: RowDataPacket): Sale {
-    const { id, date, seller_id, customer_id } = data;
+    const { id, date, seller_id, customer_id, total } = data;
 
     return {
       id,
       date,
       seller_id,
       customer_id,
+      total: Number(total),
     };
   }
 
@@ -33,6 +34,17 @@ export default class SaleTable extends BaseTable<Sale> {
     return sql`
       JOIN seller ON sale.seller_id = seller.id
       JOIN pos ON seller.pos_id = pos.id
+    `;
+  }
+
+  getAdditionalFields(): Sql {
+    return sql`,
+      ( 
+        SELECT SUM(sale_sku.qty * sale_sku.price)
+        FROM sale_sku
+        WHERE sale_sku.sale_id = sale.id
+        GROUP BY sale_sku.sale_id
+      ) AS total
     `;
   }
 }

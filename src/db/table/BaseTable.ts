@@ -135,6 +135,14 @@ export default class BaseTable<T> implements Table<T> {
     return empty;
   }
 
+  getAdditionalFields(): Sql {
+    return empty;
+  }
+
+  debugGetMany(paginatedSqlQuery: Sql, totalSqlQuery: Sql): void {
+    //
+  }
+
   async getMany(
     query: Record<string, unknown>
   ): Promise<ApiGetListResponse<T>> {
@@ -173,9 +181,8 @@ export default class BaseTable<T> implements Table<T> {
       : empty;
 
     const listSqlQuery = sql`
-      SELECT ${raw("db." + this.tableName)}.* FROM ${raw(
-      "db." + this.tableName
-    )}
+      SELECT ${raw("db." + this.tableName)}.* ${this.getAdditionalFields()}
+      FROM ${raw("db." + this.tableName)}
       ${this.getJoinedTablesStatement()}
     `;
 
@@ -186,16 +193,16 @@ export default class BaseTable<T> implements Table<T> {
       " "
     );
 
-    const [rows] = await this.db.query(paginatedSqlQuery);
-
-    const list = (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
-
     const totalSqlQuery = sql`
-      SELECT 
-        COUNT(*) as total
-      FROM (${filteredSqlQuery}) as list
+    SELECT 
+    COUNT(*) as total
+    FROM (${filteredSqlQuery}) as list
     `;
 
+    this.debugGetMany(paginatedSqlQuery, totalSqlQuery);
+
+    const [rows] = await this.db.query(paginatedSqlQuery);
+    const list = (rows as RowDataPacket[]).map((row) => this.mapFromDb(row));
     const [totalRows] = await this.db.query(totalSqlQuery);
     const total = (totalRows as RowDataPacket[])[0].total as unknown as number;
 
@@ -208,7 +215,7 @@ export default class BaseTable<T> implements Table<T> {
   async getOne(id: string): Promise<T> {
     const listQuery = sql`
       SELECT 
-        * 
+        * ${this.getAdditionalFields()}
       FROM 
         ${raw("db." + this.tableName)}
       WHERE
