@@ -7,7 +7,9 @@ import {
   DateField,
   ReferenceInput,
   SelectInput,
+  NumberField,
 } from "react-admin";
+import { dateFormatOptions } from "../../const";
 
 export const SaleList: React.FunctionComponent = (props) => {
   const [sellerFilter, setSellerFilter] = React.useState<{ pos_id?: number }>(
@@ -61,16 +63,25 @@ export const SaleList: React.FunctionComponent = (props) => {
 
   return (
     <List {...props} filters={filters} sort={{ field: "date", order: "DESC" }}>
-      <Datagrid rowClick="edit">
-        <DateField source="date" />
-        <ReferenceField source="customer_id" reference="customer">
+      <Datagrid rowClick="show">
+        <DateField source="date" options={dateFormatOptions} />
+        <NumberField
+          source="total"
+          options={{ style: "currency", currency: "EUR" }}
+        />
+        <ReferenceField source="customer_id" reference="customer" link={false}>
           <TextField source="name" />
         </ReferenceField>
-        <ReferenceField source="seller_id" reference="seller">
+        <ReferenceField source="seller_id" reference="seller" link={false}>
           <TextField source="name" />
         </ReferenceField>
-        <ReferenceField source="seller_id" reference="seller" label="Store">
-          <ReferenceField source="pos_id" reference="pos">
+        <ReferenceField
+          source="seller_id"
+          reference="seller"
+          label="Store"
+          link={false}
+        >
+          <ReferenceField source="pos_id" reference="pos" link={false}>
             <TextField source="name" />
           </ReferenceField>
         </ReferenceField>
