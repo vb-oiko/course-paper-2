@@ -9,10 +9,15 @@ import {
 } from "react-admin";
 import { GridShowLayout, RaGrid } from "ra-compact-ui";
 import { PageTitle } from "../shared/PageTitle";
+import { CrudActions } from "../shared/CrudActions";
 
 export const PosShow: React.FunctionComponent = (props) => {
   return (
-    <Show {...props} title={<PageTitle title="Point of Sale" />}>
+    <Show
+      {...props}
+      title={<PageTitle title="Point of Sale" />}
+      actions={<CrudActions />}
+    >
       <GridShowLayout>
         <RaGrid container spacing={2}>
           <RaGrid item xs={4}>
@@ -37,7 +42,7 @@ export const PosShow: React.FunctionComponent = (props) => {
           label="Price List"
         >
           <Datagrid rowClick="edit">
-            <ReferenceField source="sku_id" reference="sku">
+            <ReferenceField source="sku_id" reference="sku" link="show">
               <TextField source="name" />
             </ReferenceField>
             <NumberField

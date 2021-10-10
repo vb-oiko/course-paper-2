@@ -3,7 +3,7 @@ import { List, Datagrid, TextField, ReferenceField } from "react-admin";
 
 export const SkuList: React.FunctionComponent = (props) => (
   <List {...props}>
-    <Datagrid rowClick="edit">
+    <Datagrid rowClick="show">
       <TextField source="id" />
       <ReferenceField source="category_id" reference="category">
         <TextField source="name" />

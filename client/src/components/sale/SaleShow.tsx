@@ -11,6 +11,7 @@ import {
 } from "react-admin";
 import { GridShowLayout, RaGrid } from "ra-compact-ui";
 import { PageTitle } from "../shared/PageTitle";
+import { CrudActions } from "../shared/CrudActions";
 
 const currentSort = { field: "date", order: "DESC" };
 
@@ -48,7 +49,11 @@ const SaleSkuList: React.FunctionComponent = (props) => {
 
 export const SaleShow: React.FunctionComponent = (props) => {
   return (
-    <Show {...props} title={<PageTitle title="Point of Sale" />}>
+    <Show
+      {...props}
+      actions={<CrudActions />}
+      title={<PageTitle title="Sale" field="id" />}
+    >
       <GridShowLayout>
         <RaGrid container spacing={2}>
           <RaGrid item xs={3}>

@@ -9,7 +9,7 @@ import {
 
 export const SellerList: React.FunctionComponent = (props) => (
   <List {...props}>
-    <Datagrid rowClick="edit">
+    <Datagrid rowClick="show">
       <TextField source="id" />
       <TextField source="name" />
       <NumberField source="salary" />
