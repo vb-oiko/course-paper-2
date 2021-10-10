@@ -4,12 +4,8 @@ import {
   Show,
   ReferenceField,
   DateField,
-  ReferenceManyField,
   Datagrid,
   NumberField,
-  ListBase,
-  ListContextProvider,
-  useListController,
   useGetList,
   useRecordContext,
 } from "react-admin";
@@ -19,7 +15,7 @@ import { PageTitle } from "../shared/PageTitle";
 const currentSort = { field: "date", order: "DESC" };
 
 const SaleSkuList: React.FunctionComponent = (props) => {
-  const { id, ...rest } = useRecordContext();
+  const { id } = useRecordContext();
 
   const { ids, data, total, loaded } = useGetList(
     "sale_sku",
