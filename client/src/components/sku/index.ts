@@ -9,7 +9,7 @@ const sku: Partial<ResourceProps> = {
   edit: SkuEdit,
   create: SkuCreate,
   show: SkuShow,
-  options: { label: "SKUs (Stock Keeping Units)" },
+  options: { label: "SKUs" },
 };
 
 export default sku;

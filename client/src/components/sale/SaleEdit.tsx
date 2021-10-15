@@ -11,7 +11,7 @@ import {
 export const SaleEdit: React.FunctionComponent = (props) => (
   <Edit {...props}>
     <SimpleForm>
-      <TextInput source="id" />
+      <TextInput source="id" disabled />
       <DateInput source="date" />
       <ReferenceInput source="seller_id" reference="seller">
         <SelectInput optionText="name" />
