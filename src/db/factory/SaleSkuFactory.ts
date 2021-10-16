@@ -1,5 +1,6 @@
 import faker from "faker";
-import { EntityMap, InsertRow, SaleSku } from "../../types";
+import { SaleSku } from "../../entity/SaleSku";
+import { EntityMap, InsertRow } from "../../types";
 import BaseFactory from "./BaseFactory";
 
 class SaleSkuFactory extends BaseFactory<SaleSku> {

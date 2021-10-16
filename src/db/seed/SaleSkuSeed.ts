@@ -2,7 +2,8 @@ import { Connection } from "mysql2/promise";
 import SaleSkuTable from "../table/SaleSkuTable";
 import SaleTable from "../table/SaleTable";
 import SkuTable from "../table/SkuTable";
-import { InsertRow, SaleSku } from "../../types";
+import { SaleSku } from "../../entity/SaleSku";
+import { InsertRow } from "../../types";
 import BaseSeed from "./BaseSeed";
 import SaleSkuFactory from "../factory/SaleSkuFactory";
 
@@ -20,8 +21,8 @@ export default class SaleSkuSeed extends BaseSeed<SaleSku> {
     const sales = await saleTable.findAll();
     const skus = await skuTable.findAll();
 
-    return this.multiplyCollections(sales, skus, 0, 3).map(
-      ([sale, sku]) => SaleSkuFactory.build({ sale, sku })
+    return this.multiplyCollections(sales, skus, 0, 3).map(([sale, sku]) =>
+      SaleSkuFactory.build({ sale, sku })
     );
   }
 }
