@@ -1,6 +1,7 @@
 import { Connection } from "mysql2/promise";
 import CustomerTable from "../table/CustomerTable";
-import { InsertRow, Customer } from "../../types";
+import { Customer } from "../../entity/Customer";
+import { InsertRow } from "../../types";
 import CustomerFactory from "../factory/CustomerFactory";
 import BaseSeed from "./BaseSeed";
 

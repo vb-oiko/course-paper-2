@@ -1,7 +1,7 @@
 import { RowDataPacket } from "mysql2/promise";
 import sql, { empty } from "sql-template-tag";
+import { Customer } from "../../entity/Customer";
 import {
-  Customer,
   DateRangeRequestData,
   InsertRow,
   LimitOffsetRequestData,

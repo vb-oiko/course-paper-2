@@ -47,10 +47,6 @@ export interface TransferSku extends Entity {
   qty: number;
 }
 
-export interface Customer extends Entity {
-  name: string;
-}
-
 export interface Supplier extends Entity {
   name: string;
 }
