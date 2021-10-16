@@ -1,7 +1,8 @@
 import { Connection } from "mysql2/promise";
 import SellerTable from "../table/SellerTable";
 import PosTable from "../table/PosTable";
-import { InsertRow, Seller } from "../../types";
+import { Seller } from "../../entity/Seller";
+import { InsertRow } from "../../types";
 import BaseSeed from "./BaseSeed";
 import SellerFactory from "../factory/SellerFactory";
 

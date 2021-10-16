@@ -1,5 +1,6 @@
 import { RowDataPacket } from "mysql2/promise";
-import { InsertRow, Seller } from "../../types";
+import { Seller } from "../../entity/Seller";
+import { InsertRow } from "../../types";
 import BaseTable from "./BaseTable";
 
 export default class SellerTable extends BaseTable<Seller> {

@@ -51,12 +51,6 @@ export interface Supplier extends Entity {
   name: string;
 }
 
-export interface Seller extends Entity {
-  name: string;
-  pos_id: number;
-  salary: number;
-}
-
 export interface Sale extends Entity {
   date: Date;
   seller_id: number;
