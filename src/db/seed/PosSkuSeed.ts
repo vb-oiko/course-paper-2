@@ -2,7 +2,8 @@ import { Connection } from "mysql2/promise";
 import PosSkuTable from "../table/PosSkuTable";
 import PosTable from "../table/PosTable";
 import SkuTable from "../table/SkuTable";
-import { InsertRow, PosSku } from "../../types";
+import { InsertRow } from "../../types";
+import { PosSku } from "../../entity/PosSku";
 import BaseSeed from "./BaseSeed";
 import PosSkuFactory from "../factory/PosSkuFactory";
 

@@ -1,5 +1,6 @@
 import faker from "faker";
-import { EntityMap, InsertRow, PosSku } from "../../types";
+import { PosSku } from "../../entity/PosSku";
+import { EntityMap, InsertRow } from "../../types";
 import BaseFactory from "./BaseFactory";
 
 class PosSkuFactory extends BaseFactory<PosSku> {

@@ -1,5 +1,6 @@
 import { RowDataPacket } from "mysql2/promise";
-import { InsertRow, PosSku } from "../../types";
+import { PosSku } from "../../entity/PosSku";
+import { InsertRow } from "../../types";
 import BaseTable from "./BaseTable";
 
 export default class PosSkuTable extends BaseTable<PosSku> {

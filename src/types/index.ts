@@ -13,13 +13,6 @@ export enum PosType {
 
 export type DataObject = Record<string, any>;
 
-export interface PosSku extends Entity {
-  sku_id: number;
-  pos_id: number;
-  price: number;
-  qty: number;
-}
-
 export type PosCollection = Pos[];
 
 export interface IPosTable extends Table<Pos> {
