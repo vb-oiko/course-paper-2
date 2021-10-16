@@ -1,7 +1,8 @@
 import { Connection } from "mysql2/promise";
 import BaseTable from "../table/BaseTable";
-import { Entity, InsertRow } from "../../types";
+import { InsertRow } from "../../types";
 import faker from "faker";
+import { Entity } from "../../entity/Entity";
 
 export interface Seed {
   up(): Promise<void>;

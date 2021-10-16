@@ -1,7 +1,8 @@
-import { InsertRow, Pos, PosCollection } from "../../types";
+import { InsertRow, PosCollection } from "../../types";
 import sql from "sql-template-tag";
 import BaseTable from "./BaseTable";
 import { RowDataPacket } from "mysql2/promise";
+import { Pos } from "../../entity/Pos";
 
 export default class PosTable extends BaseTable<Pos> {
   tableName = "pos";

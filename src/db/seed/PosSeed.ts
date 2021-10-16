@@ -1,8 +1,9 @@
 import { Connection } from "mysql2/promise";
 import PosTable from "../table/PosTable";
-import { InsertRow, Pos } from "../../types";
+import { InsertRow } from "../../types";
 import PosFactory from "../factory/PosFactory";
 import BaseSeed from "./BaseSeed";
+import { Pos } from "../../entity/Pos";
 
 export default class PosSeed extends BaseSeed<Pos> {
   constructor(db: Connection) {

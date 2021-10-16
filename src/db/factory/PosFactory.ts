@@ -1,6 +1,7 @@
-import { InsertRow, Pos, PosType } from "../../types";
+import { InsertRow, PosType } from "../../types";
 import faker from "faker";
 import BaseFactory from "./BaseFactory";
+import { Pos } from "../../entity/Pos";
 
 class PosFactory extends BaseFactory<Pos> {
   private static mockType() {

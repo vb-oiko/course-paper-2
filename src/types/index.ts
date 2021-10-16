@@ -1,6 +1,6 @@
+import { Pos } from "../entity/Pos";
+import { Entity } from "../entity/Entity";
 export interface Table<T> {
-  // exists(t: T): Promise<boolean>;
-  // delete(t: T): Promise<any>;
   save(t: InsertRow<T>[]): Promise<T[]>;
 }
 
@@ -11,20 +11,7 @@ export enum PosType {
   KIOSK = "kiosk",
 }
 
-export interface Entity {
-  id: number;
-}
-export interface Pos extends Entity {
-  name: string;
-  type: PosType;
-  area: number;
-  utilities: number;
-  rent: number;
-  floors?: number;
-  departments?: number;
-  halls?: number;
-  workplaces?: number;
-}
+export type DataObject = Record<string, any>;
 
 export interface Sku extends Entity {
   name: string;
