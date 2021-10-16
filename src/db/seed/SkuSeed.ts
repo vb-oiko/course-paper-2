@@ -1,5 +1,6 @@
 import { Connection } from "mysql2/promise";
-import { InsertRow, Sku } from "../../types";
+import { Sku } from "../../entity/Sku";
+import { InsertRow } from "../../types";
 import SkuFactory from "../factory/SkuFactory";
 import CategoryTable from "../table/CategoryTable";
 import SkuTable from "../table/SkuTable";

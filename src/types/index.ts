@@ -13,11 +13,6 @@ export enum PosType {
 
 export type DataObject = Record<string, any>;
 
-export interface Sku extends Entity {
-  name: string;
-  category_id: number;
-}
-
 export interface Category extends Entity {
   name: string;
 }
