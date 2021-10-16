@@ -1,6 +1,7 @@
-import { InsertRow, Category } from "../../types";
+import { InsertRow } from "../../types";
 import faker from "faker";
 import BaseFactory from "./BaseFactory";
+import { Category } from "../../entity/Category";
 
 class CategoryFactory extends BaseFactory<Category> {
   build(): InsertRow<Category> {

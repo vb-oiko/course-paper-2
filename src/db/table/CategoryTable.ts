@@ -1,5 +1,6 @@
 import { RowDataPacket } from "mysql2/promise";
-import { InsertRow, Category } from "../../types";
+import { InsertRow } from "../../types";
+import { Category } from "../../entity/Category";
 import BaseTable from "./BaseTable";
 
 export default class CategoryTable extends BaseTable<Category> {
