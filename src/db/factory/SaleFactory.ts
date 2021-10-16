@@ -1,4 +1,5 @@
-import { EntityMap, InsertRow, Sale } from "../../types";
+import { Sale } from "../../entity/Sale";
+import { EntityMap, InsertRow } from "../../types";
 import BaseFactory from "./BaseFactory";
 
 class SaleFactory extends BaseFactory<Sale> {

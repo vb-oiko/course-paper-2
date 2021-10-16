@@ -2,7 +2,8 @@ import { Connection } from "mysql2/promise";
 import SaleTable from "../table/SaleTable";
 import SellerTable from "../table/SellerTable";
 import CustomerTable from "../table/CustomerTable";
-import { InsertRow, Sale } from "../../types";
+import { Sale } from "../../entity/Sale";
+import { InsertRow } from "../../types";
 import BaseSeed from "./BaseSeed";
 import SaleFactory from "../factory/SaleFactory";
 

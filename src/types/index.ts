@@ -51,13 +51,6 @@ export interface Supplier extends Entity {
   name: string;
 }
 
-export interface Sale extends Entity {
-  date: Date;
-  seller_id: number;
-  customer_id: number;
-  total?: number;
-}
-
 export interface SaleSku extends Entity {
   sale_id: number;
   sku_id: number;

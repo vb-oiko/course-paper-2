@@ -1,7 +1,8 @@
 import { RowDataPacket } from "mysql2/promise";
 import sql, { Sql } from "sql-template-tag";
 
-import { InsertRow, Sale } from "../../types";
+import { Sale } from "../../entity/Sale";
+import { InsertRow } from "../../types";
 import SqlHelper from "../SqlHelper";
 import BaseTable from "./BaseTable";
 
